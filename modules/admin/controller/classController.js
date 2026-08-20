@@ -4,7 +4,6 @@ const {
   affichesClassServices,
   modiffierUnClassServices,
   SupprimerUnSclasservices,
-  affectClassServices,
 } = require("../services/classService");
 
 // ajouter un classe

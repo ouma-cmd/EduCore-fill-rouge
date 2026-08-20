@@ -1,8 +1,8 @@
-const ajouterSubjecteServices = require("../services/subjectServices");
+const SubjecteServices = require("../services/subjectServices");
 
 async function ajouterSubjectController(req, res) {
   const { name, teachers, students, coefficient } = req.body;
-  const ajotesSubject = await ajouterSubjecteServices(
+  const ajotesSubject = await SubjecteServices.ajouterSubjecteServices(
     name,
     teachers,
     students,
@@ -15,7 +15,7 @@ async function ajouterSubjectController(req, res) {
 }
 
 async function getAllSubjectController(req, res) {
-  const getSubject = await ajouterSubjecteServices.getAllSubject();
+  const getSubject = await SubjecteServices.getAllSubject();
   if (!getSubject) {
     return res.status(400).json("not fond");
   }
@@ -24,7 +24,7 @@ async function getAllSubjectController(req, res) {
 
 async function getSubjectByIdController(req, res) {
   const id = req.params.id;
-  const getSubjectById = await ajouterSubjecteServices.getSubjectById(id);
+  const getSubjectById = await SubjecteServices.getSubjectById(id);
   if (!getSubjectById) {
     return res.status(400).json("not fond");
   }
@@ -41,7 +41,7 @@ async function updeteSubjectController(req, res) {
     newTeacher,
     coefficient,
   } = req.body;
-  const ubdetSubject = await ajouterSubjecteServices.modiffierSubjectServices(
+  const ubdetSubject = await SubjecteServices.modiffierSubjectServices(
     idSubject,
     newSubject,
     idStudent,
@@ -57,7 +57,7 @@ async function updeteSubjectController(req, res) {
 }
 async function deletSubjectController(req, res) {
   const id = req.params.id;
-  const deletSubject = await ajouterSubjecteServices.deletSubjectServices(id);
+  const deletSubject = await SubjecteServices.deletSubjectServices(id);
   if (!deletSubject) {
     return res.json(deletSubject);
   }

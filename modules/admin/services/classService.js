@@ -1,5 +1,5 @@
 const SchoolClass = require("../Models/SchoolClass");
-const Student = require("../../student/models/Student");
+const Student = require("../Models/Student");
 
 // ajouter class
 async function AjouterClasseServices(name, level) {
