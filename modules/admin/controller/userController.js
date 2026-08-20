@@ -28,7 +28,6 @@ async function AfficherUserController(req, res) {
 // get user by id
 async function afficherUserByIdController(req, res) {
   const { id } = req.params;
-  console.log("ID:", id);
   const getUserById = await userServices.afficherUserByIdServices(id);
   if (!getUserById) {
     return res.status(400).json("not fond");
@@ -36,6 +35,7 @@ async function afficherUserByIdController(req, res) {
   return res.json(getUserById);
 }
 
+// updet
 async function modifierUserByIdController(req, res) {
   const { id } = req.params;
   const userBody = req.body;
@@ -50,6 +50,7 @@ async function modifierUserByIdController(req, res) {
   return res.json(ubdetController);
 }
 
+// supprimer
 async function supprimeruserByIdController(req,res){
 const {id} = req.params;
 const deletUser = await userServices.supprimerUserByIdServices(id)

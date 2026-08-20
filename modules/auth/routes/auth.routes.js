@@ -20,7 +20,7 @@ router.post(
   registerController,
 );
 router.get("/profile", AuthMiddleware, profileController);
-router.post("/logout",AuthMiddleware, logoutController);
+router.delete("/logout",AuthMiddleware, logoutController);
 router.put("/change-password",AuthMiddleware, changePasswordController )
 
 module.exports = router;

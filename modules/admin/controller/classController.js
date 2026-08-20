@@ -4,7 +4,6 @@ const {
   affichesClassServices,
   modiffierUnClassServices,
   SupprimerUnSclasservices,
-  AffecterElèvesServices,
   affectClassServices,
 } = require("../services/classService");
 
@@ -60,35 +59,10 @@ async function supprimerUnClassController(req, res) {
   res.status(404).json("class not found");
 }
 
-// Affecter les élèves
-async function AffecterelèvesController(req, res) {
-  const { idStudent, idClasse } = req.body;
-
-  const affecterStudent = await AffecterElèvesServices(idStudent, idClasse);
-
-  if (affecterStudent) {
-    return res.status(200).json("relation seccefuly");
-  }
-  return res.json("not fond");
-}
-
-async function affecterClasseController(req, res) {
-  const { idstudent, idClass } = req.body;
-
-  const affectClass = await affectClassServices(idstudent, idClass);
-
-  if (affectClass) {
-    return res.status(200).json("created succefuly");
-  }
-  return res.json("err");
-}
-
 module.exports = {
   AjouterClassController,
   afficherClassesController,
   afficherUnClasseController,
   modiffierUnClassController,
   supprimerUnClassController,
-  AffecterelèvesController,
-  affecterClasseController,
 };

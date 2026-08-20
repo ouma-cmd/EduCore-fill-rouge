@@ -10,7 +10,7 @@ async function AjouterUserServices(username, email, password, role) {
   }
   const hach = await hachPassword(password);
   const newUser = await user.create({ username, email, password: hach, role });
-  return "user create succefuly";
+  return newUser;
 }
 
 // afficher users
@@ -46,6 +46,7 @@ async function modiffierUserByIdServices(id, userBody) {
   return ubdeteUser;
 }
 
+// supprimer user by Id
 async function supprimerUserByIdServices(id) {
   const deletUserById = await user.findByIdAndDelete(id);
   if (!deletUserById) {
