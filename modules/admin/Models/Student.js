@@ -24,6 +24,18 @@ const StudentSchema = new mongoose.Schema(
         ref: "SchoolClass",
       },
     ],
+    teachers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Teacher",
+      },
+    ],
+    subjects: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Subject",
+      },
+    ],
     parent: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Parent",

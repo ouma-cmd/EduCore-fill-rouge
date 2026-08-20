@@ -1,5 +1,5 @@
 const SchoolClass = require("../Models/SchoolClass");
-const Student = require("../../student/models/Student");
+const Student = require("../Models/Student");
 
 // ajouter class
 async function AjouterClasseServices(name, level) {
@@ -51,45 +51,6 @@ async function SupprimerUnSclasservices(id) {
   return null;
 }
 
-// Affecter les élèves
-async function AffecterElèvesServices(idStudent, idClasse) {
-  const AffecterUser = await Student.findById(idStudent);
-  const affecterClass = await SchoolClass.findByIdAndUpdate(
-    idClasse,
-    {
-      $addToSet: {
-        students: idStudent,
-      },
-    },
-    {
-      new: true,
-    },
-  );
-  if (affecterClass) {
-    return affecterClass;
-  }
-  return null;
-}
-
-// Affecter les classe
-async function affectClassServices(idstudent, idClass) {
-  const affectClass = await SchoolClass.findById(idClass);
-  console.log("STUDENT FOUND:", await Student.findById(idstudent));
-console.log("CLASS FOUND:", await SchoolClass.findById(idClass));
-  const affecteStudent = await Student.findByIdAndUpdate(
-    idstudent,
-    {
-      $addToSet: {
-        classes: idClass,
-      },
-    },
-    { new: true },
-  );
-  if(affecteStudent){
-    return affecteStudent;
-  }
-  return null
-}
 
 module.exports = {
   AjouterClasseServices,
@@ -97,6 +58,4 @@ module.exports = {
   affichesClassServices,
   modiffierUnClassServices,
   SupprimerUnSclasservices,
-  AffecterElèvesServices,
-  affectClassServices,
 };

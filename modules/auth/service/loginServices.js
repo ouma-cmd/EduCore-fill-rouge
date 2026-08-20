@@ -6,7 +6,6 @@ async function loginServices(email, password) {
   const emailFind = await user.findOne({
     email: email,
   });
-  console.log("USER:", emailFind);
   if (!emailFind) {
     return console.log("email not fond ");
   } else {
@@ -14,7 +13,6 @@ async function loginServices(email, password) {
       password,
       emailFind.password,
     );
-    console.log("PASSWORD:", isPasswordCorrect);
     if (isPasswordCorrect) {
       const payload = { id: emailFind._id, role: emailFind.role };
       const secret = process.env.JWT_SECRET;
