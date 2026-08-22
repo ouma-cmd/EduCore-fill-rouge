@@ -86,8 +86,8 @@ async function deleParentServices(id, idStudent) {
       parent: id,
     },
   });
-  const removeParent = await parent.findByIdAndDelete(id)
-  return removeParent
+  const removeParent = await parent.findByIdAndDelete(id);
+  return removeParent;
 }
 
 module.exports = {
