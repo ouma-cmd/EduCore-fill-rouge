@@ -1,11 +1,10 @@
 const SubjecteServices = require("../services/subjectServices");
 
 async function ajouterSubjectController(req, res) {
-  const { name, teachers, students, coefficient } = req.body;
+  const { name, teachers, coefficient } = req.body;
   const ajotesSubject = await SubjecteServices.ajouterSubjecteServices(
     name,
     teachers,
-    students,
     coefficient,
   );
   if (!ajotesSubject) {

@@ -61,12 +61,19 @@ async function ajouterStudentServices({
       new: true,
     },
   );
+
   // parent
-  const mettreajourStudent = await Parent.findByIdAndUpdate(parentId, {
-    $addToSet: {
-      students: creatStudent._id,
+  const mettreajourParent = await Parent.findByIdAndUpdate(
+    parentId,
+    {
+      $addToSet: {
+        students: creatStudent._id,
+      },
     },
-  });
+    {
+      new: true,
+    },
+  );
   // teacher
   const updatedTeacher = await teacher.findByIdAndUpdate(
     teacherId,
