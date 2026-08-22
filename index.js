@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
-const  route  = require("./modules/auth/routes/auth.routes");
+const route = require("./modules/auth/routes/auth.routes");
 const routers = require("./modules/admin/routes/admin.routes");
 const AuthMiddleware = require("./modules/auth/middlewares/AuthMiddleware");
 const roleMiddleware = require("./modules/auth/middlewares/roleMiddleware");
@@ -20,7 +20,9 @@ app.get("/", (req, res) => {
 });
 app.use("/users", route);
 
-app.use("/admin" ,AuthMiddleware , roleMiddleware, routers)
+app.use("/admin", AuthMiddleware, roleMiddleware, routers);
+
+app.use("/teacher",AuthMiddleware,roleteacherMiddlewere, routes)
 
 app.listen(port, () => {
   console.log("hello port", port);

@@ -86,6 +86,7 @@ async function ajouterStudentServices({
       new: true,
     },
   );
+
   // Subject/matier
   const updatedSubject = await subject.findByIdAndUpdate(
     SubjectId,
@@ -222,8 +223,9 @@ async function modiffierStudent(
       subjects: [newsubjects],
     },
   });
-const updatedStudent = await Student.findById(idStudent);
-return updatedStudent;}
+  const updatedStudent = await Student.findById(idStudent);
+  return updatedStudent;
+}
 
 // supprimer student
 async function deletStudent(id) {
