@@ -5,18 +5,20 @@ const  route  = require("./modules/auth/routes/auth.routes");
 const routers = require("./modules/admin/routes/admin.routes");
 const AuthMiddleware = require("./modules/auth/middlewares/AuthMiddleware");
 const roleMiddleware = require("./modules/auth/middlewares/roleMiddleware");
+const routes = require("./modules/teacher/routes/teacher.routes");
+const roleteacherMiddlewere = require("./modules/teacher/middlewares/role.teacher");
 
 const app = express();
 const port = process.env.PORT;
 
 connectDB();
 
-app.use(express.json())
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("hi welcome ");
 });
-app.use("/users", route)
+app.use("/users", route);
 
 app.use("/admin" ,AuthMiddleware , roleMiddleware, routers)
 
