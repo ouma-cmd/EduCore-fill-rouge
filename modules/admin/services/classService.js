@@ -1,5 +1,6 @@
 const SchoolClass = require("../Models/SchoolClass");
 const Student = require("../Models/Student");
+const teacher = require("../Models/teacher");
 
 // ajouter class
 async function AjouterClasseServices(name, level) {
@@ -39,6 +40,7 @@ async function modiffierUnClassServices(id, bodyId) {
   if (!modifier) {
     return "not find class ";
   }
+
   return modifier;
 }
 
@@ -46,12 +48,27 @@ async function modiffierUnClassServices(id, bodyId) {
 async function SupprimerUnSclasservices(id) {
   const delet = await SchoolClass.findByIdAndDelete(id);
 
-  if (delet) {
-    return delet;
+  if (!delet) {
+    return null;
   }
-  return null;
+  const deletStudent = await Student.updateMany(
+    { classes: id },
+    {
+      $pull: {
+        classes: id,
+      },
+    },
+  );
+  const deletSTeacher = await teacher.updateMany(
+    { classe: id },
+    {
+      $pull: {
+        classe: id,
+      },
+    },
+  );
+  return delet;
 }
-
 
 module.exports = {
   AjouterClasseServices,
