@@ -8,6 +8,7 @@ async function AjouterClasseServices(name, level) {
     return null;
   }
   const creatClass = await SchoolClass.create({ name, level });
+  
   return creatClass;
 }
 
