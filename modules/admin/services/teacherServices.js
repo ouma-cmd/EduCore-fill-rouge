@@ -4,25 +4,33 @@ const Student = require("../Models/Student");
 const subject = require("../Models/subject");
 const teacher = require("../Models/teacher");
 
-async function ajouterteacherServices(userID, classeId, subjectId, studentId) {
+async function ajouterteacherServices(userID, classeId) {
   const userId = await user.findById(userID);
   const classeFind = await SchoolClass.findById(classeId);
-  const studentFind = await Student.findById(studentId);
-
-  if (!userId || userId.role !== "teacher" || !classeFind || !studentFind) {
+  if (!userId || userId.role !== "teacher" || !classeFind) {
     return null;
   }
 
   const teacherCreat = await teacher.create({
     user: userID,
     classe: [classeId],
-    subjects: [subjectId],
-    students: [studentId],
   });
+  // classe
+  const mettreajourclasse = await SchoolClass.findByIdAndUpdate(
+    classeId,
+    {
+      $addToSet: {
+        teacher: teacherCreat._id,
+      },
+    },
+    {
+      new: true,
+    },
+  );
 
   return teacherCreat;
 }
-
+// get all teachre
 async function getAllTeacherServices() {
   const getTeacher = await teacher.find();
   if (!getTeacher) {
