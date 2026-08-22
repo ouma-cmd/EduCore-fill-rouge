@@ -1,13 +1,11 @@
 const teacherServices = require("../services/teacherServices");
 
 async function ajouterteacherController(req, res) {
-  const { userID, classeId, subjectId, studentId } = req.body;
+  const { userID, classeId } = req.body;
 
   const teacher = await teacherServices.ajouterteacherServices(
     userID,
     classeId,
-    subjectId,
-    studentId,
   );
 
   if (!teacher) {

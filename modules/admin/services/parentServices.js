@@ -2,21 +2,17 @@ const parent = require("../Models/parent");
 const User = require("../../auth/Models/user");
 const Student = require("../Models/Student");
 
-async function ajouterparentServices({ userId, studentId, phone }) {
-  console.log(userId, studentId, phone);
+async function ajouterparentServices({ userId, phone }) {
+  console.log(userId, phone);
 
   const userI = await User.findById(userId);
-  const creatStudent = await Student.findById(studentId);
   if (!userI || userI.role !== "parent") {
     return null;
   }
-  if (!creatStudent) {
-    return null;
-  }
+
 
   const creatParent = await parent.create({
     user: userId,
-    students: [studentId],
     phone,
   });
 

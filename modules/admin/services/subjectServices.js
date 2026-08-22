@@ -3,7 +3,7 @@ const Student = require("../Models/Student");
 const subject = require("../Models/subject");
 const teacher = require("../Models/teacher");
 
-async function ajouterSubjecteServices(name, teachers, students, coefficient) {
+async function ajouterSubjecteServices(name, teachers, coefficient) {
   const ajouterSubject = await subject.find({ name: name });
   if (ajouterSubject.length > 0) {
     return null;
@@ -11,7 +11,6 @@ async function ajouterSubjecteServices(name, teachers, students, coefficient) {
   const creatSubject = await subject.create({
     name,
     teachers,
-    students,
     coefficient,
   });
   return creatSubject;

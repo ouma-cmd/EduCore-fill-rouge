@@ -1,11 +1,10 @@
 const parentServices = require("../services/parentServices");
 
 async function ajouterparentController(req, res) {
-  const { userId, studentId, phone } = req.body;
+  const { userId, phone } = req.body;
 
   const createParent = await parentServices.ajouterparentServices({
     userId,
-    studentId,
     phone,
   });
   if (!createParent) {
