@@ -1,8 +1,9 @@
 function roleteacherMiddlewere(req, res, next) {
   const role = req.user.role;
-  if (!role) {
+  if (role !== "teacher") {
     return res.sendStatus(400);
+  } else {
+    next();
   }
-  next();
 }
 module.exports = roleteacherMiddlewere;

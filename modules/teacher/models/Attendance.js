@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 const { required } = require("zod/mini");
+const { type } = require("../../auth/schemas/loginSchema");
 
 const AttendanceSchema = new mongoose.Schema(
   {
     id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Teacher",
-      required: true,
     },
     classe: {
       type: mongoose.Schema.Types.ObjectId,
@@ -19,6 +19,11 @@ const AttendanceSchema = new mongoose.Schema(
       ref: "Student",
       required: true,
     },
+    teacher: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Teacher",
+      required: true,
+    },
     date: {
       type: Date,
       default: Date.now,
@@ -27,6 +32,10 @@ const AttendanceSchema = new mongoose.Schema(
       type: String,
       enum: ["present", "absent", "late"],
       default: "present",
+    },
+    time: {
+      type: Date,
+      default: Date.now,
     },
   },
   { timestamps: true },
