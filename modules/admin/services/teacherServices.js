@@ -20,7 +20,7 @@ async function ajouterteacherServices(userID, classeId) {
     classeId,
     {
       $addToSet: {
-        teacher: teacherCreat._id,
+        teachers: teacherCreat._id,
       },
     },
     {
