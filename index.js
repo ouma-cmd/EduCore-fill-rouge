@@ -9,6 +9,8 @@ const routes = require("./modules/teacher/routes/teacher.routes");
 const roleteacherMiddlewere = require("./modules/teacher/middlewares/role.teacher");
 const roleStudentMiddlewere = require("./modules/student/middlewares/roleStudentMiddlewere");
 const rout = require("./modules/student/routes/student.routes");
+const ParentRout = require("./modules/parent/routers/parent.route");
+const roleParentMiddlewere = require("./modules/parent/middlewares/roleParentMiddlewere");
 
 const app = express();
 const port = process.env.PORT;
@@ -27,6 +29,8 @@ app.use("/admin", AuthMiddleware, roleMiddleware, routers);
 app.use("/teacher", AuthMiddleware, roleteacherMiddlewere, routes);
 
 app.use("/student", AuthMiddleware, roleStudentMiddlewere, rout);
+
+app.use("/parent", AuthMiddleware, roleParentMiddlewere, ParentRout);
 
 app.listen(port, () => {
   console.log("hello port", port);
