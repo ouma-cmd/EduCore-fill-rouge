@@ -33,7 +33,7 @@ app.use("/student", AuthMiddleware, roleStudentMiddlewere, rout);
 
 app.use("/parent", AuthMiddleware, roleParentMiddlewere, ParentRout);
 
-app.use("/dashboard", AuthMiddleware, roleMiddleware, dashrout);
+app.use("/dashboard", AuthMiddleware, dashrout);
 
 app.listen(port, () => {
   console.log("hello port", port);
