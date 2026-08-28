@@ -1,4 +1,4 @@
-const dashboard = require("../services/dashbaord");
+const dashboard = require("../services/dashbaordAdmin");
 
 async function dashboardController(req, res) {
   const dash = await dashboard();
