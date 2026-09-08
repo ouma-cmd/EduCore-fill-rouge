@@ -19,4 +19,34 @@ async function consultNoteEnfant(parentId) {
   return gradNote;
 }
 
-module.exports = consultNoteEnfant;
+async function ConsulterMoyenne(id) {
+  const idParent = await parent.findById(id);
+  if (!idParent) {
+    return null;
+  }
+  const idStudent = idParent.students;
+  if (!idStudent || idStudent.length === 0) {
+    return null;
+  }
+
+  const groupScore = await Grade.aggregate([
+    {
+      $match: {
+        student: { $in: idStudent },
+        examType: "controller",
+      },
+    },
+    {
+      $group: {
+        _id: "$student",
+        totaleAvg: { $avg: "$score" },
+      },
+    },
+  ]);
+  return groupScore;
+}
+
+module.exports = {
+  consultNoteEnfant,
+  ConsulterMoyenne,
+};

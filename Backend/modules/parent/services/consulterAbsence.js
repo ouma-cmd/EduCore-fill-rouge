@@ -1,4 +1,5 @@
 const parent = require("../../admin/Models/parent");
+const Attendance = require("../../teacher/models/Attendance");
 
 async function consulterAbsence(id) {
   const idParent = await parent.findById(id);
@@ -9,6 +10,9 @@ async function consulterAbsence(id) {
   if (!idStudent) {
     return null;
   }
-  return idStudent;
+  const attendance = await Attendance.find({
+    student: { $in: idStudent },
+  });
+  return attendance
 }
 module.exports = consulterAbsence;
