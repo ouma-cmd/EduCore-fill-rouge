@@ -1,4 +1,5 @@
 import { useState } from "react";
+import loginAxios from "../../../services/axion";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -12,8 +13,7 @@ function LoginForm() {
   }
   function handlSubmit(e) {
     e.preventDefault();
-    console.log(email);
-    console.log(pass);
+    loginAxios(email, pass);
   }
   return (
     <div>

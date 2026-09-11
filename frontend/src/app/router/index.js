@@ -7,10 +7,10 @@ import routStudent from "./student/routes";
 import routTeacher from "./teacher/router";
 
 const router = createBrowserRouter([
-  routesAuth,
-  routes,
-  routeParent,
-  routStudent,
-  routTeacher,
+  ...routesAuth,
+  ...routes,
+  ...routeParent,
+  ...routStudent,
+  ...routTeacher,
 ]);
 export default router;

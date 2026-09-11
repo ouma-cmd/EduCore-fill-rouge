@@ -1,7 +1,9 @@
+import LoginForm from "../../../features/auth/components/LoginForm";
+
  const routesAuth = [
   {
     path: "/login",
-    element: <></>,
+    element: <LoginForm/>,
   },
   {
     path: "/register",

@@ -12,12 +12,14 @@ const rout = require("./modules/student/routes/student.routes");
 const ParentRout = require("./modules/parent/routers/parent.route");
 const roleParentMiddlewere = require("./modules/parent/middlewares/roleParentMiddlewere");
 const dashrout = require("./modules/dashboard/router/dashboard.route");
+const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT;
 
 connectDB();
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
