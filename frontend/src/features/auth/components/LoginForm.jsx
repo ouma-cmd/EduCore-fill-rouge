@@ -14,21 +14,22 @@ function LoginForm() {
   }
   function handlSubmit(e) {
     e.preventDefault();
+    console.log(email, pass);
     loginAxios(email, pass);
   }
   return (
     <div className=" bg-gray-100 min-h-screen flex justify-center ">
       <form
         onSubmit={handlSubmit}
-        className="w-full max-w-md bg-white   px-8 py-6 m-20"
+        className="w-full max-w-md bg-white px-8 py-6 m-20"
       >
         {/* Logo */}
         <div className="flex justify-center mb-4">
-          <img src={logo}  alt="Logo" className="w-12 h-12 object-contain" />
+          <img src={logo} alt="Logo" className="w-12 h-12 object-contain" />
         </div>
 
         {/* System name */}
-        <p className="text-center text-[10px] text-gray-800 mb-3">
+        <p className="text-center text-[1px] text-gray-800 mb-3">
           Smart Academy Management System
         </p>
 
@@ -80,7 +81,7 @@ function LoginForm() {
         </button>
 
         {/* Register */}
-        <p className="text-center text-[9px] text-gray-700 mt-3">
+        <p className="text-center text-[11px] text-gray-700 mt-3">
           Don't have an account?{" "}
           <span className="text-blue-600 cursor-pointer hover:underline">
             Register
