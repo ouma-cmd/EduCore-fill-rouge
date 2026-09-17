@@ -2,6 +2,7 @@ const routStudent = [
   {
     path: "/dashboardStudent",
     element: <></>,
+    loader: () => protecte("student"),
   },
   {
     path: "/classes",

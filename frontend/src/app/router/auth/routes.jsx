@@ -1,13 +1,16 @@
 import LoginForm from "../../../features/auth/components/LoginForm";
+import publice from "../routes/public";
 
- const routesAuth = [
+const routesAuth = [
   {
     path: "/login",
-    element: <LoginForm/>,
+    element: <LoginForm />,
+    loader: async () => await publice(),
   },
   {
     path: "/register",
     element: <></>,
+    loader: async () => await publice(),
   },
 ];
-export default  routesAuth
+export default routesAuth;

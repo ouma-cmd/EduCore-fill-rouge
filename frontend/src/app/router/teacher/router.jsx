@@ -2,6 +2,7 @@ const routTeacher = [
   {
     path: "/dashboardTeacher",
     element: <></>,
+    loader: () => protecte("teacher"),
   },
   {
     path: "/student",

@@ -2,6 +2,7 @@ const routeParent = [
   {
     path: "/dashboardParent",
     element: <></>,
+    loader: () => protecte("parent"),
   },
   {
     path: "/enfant",
