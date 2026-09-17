@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
 
 import routesAuth from "./auth/routes";
 import routes from "./admin/routes";

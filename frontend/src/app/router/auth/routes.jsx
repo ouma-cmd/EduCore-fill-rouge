@@ -1,4 +1,5 @@
 import LoginForm from "../../../features/auth/components/LoginForm";
+import protecte from "../routes/protected";
 import publice from "../routes/public";
 
 const routesAuth = [

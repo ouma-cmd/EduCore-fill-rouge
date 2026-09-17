@@ -3,10 +3,10 @@ const loginServices = require("../service/loginServices");
 async function loginController(req, res) {
   const { email, password } = req.body;
 
-  const token = await loginServices(email, password);
-
+  const credentials = await loginServices(email, password);
+  if (!credentials) return res.json({ error: "invalid credentials" });
   res.json({
-    token: token,
+    ...credentials,
   });
 }
 module.exports = loginController;

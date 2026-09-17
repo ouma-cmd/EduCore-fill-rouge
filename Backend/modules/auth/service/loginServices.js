@@ -7,7 +7,7 @@ async function loginServices(email, password) {
     email: email,
   });
   if (!emailFind) {
-    return console.log("email not fond ");
+    return console.log("email not fond "); // should return an error
   } else {
     const isPasswordCorrect = await bcrypt.compare(
       password,
@@ -19,7 +19,15 @@ async function loginServices(email, password) {
       const options = { expiresIn: "1h" };
 
       const token = jwt.sign(payload, secret, options);
-      return token;
+      console.log({ ...emailFind });
+      return {
+        token,
+        user: {
+          id: emailFind.id,
+          username: emailFind.username,
+          role: emailFind.role,
+        },
+      };
     } else {
       return console.log("password not correct");
     }
