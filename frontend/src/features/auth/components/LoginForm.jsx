@@ -1,10 +1,15 @@
 import { useState } from "react";
 import loginAxios from "../../../services/axion";
 import logo from "../../../assets/Educore.png";
+import { useNavigate } from "react-router";
+import { links } from "../../../app/router/links";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   function handlchangeEmail(e) {
     setEmail(e.target.value);
@@ -12,19 +17,31 @@ function LoginForm() {
   function handlchangePass(e) {
     setPass(e.target.value);
   }
-  function handlSubmit(e) {
+  async function handlSubmit(e) {
     e.preventDefault();
-    loginAxios(email, pass);
+    setIsLoading(true);
+    const loginCredentials = await loginAxios(email, pass);
+    if (!loginCredentials) {
+      setError("Login failed");
+      setIsLoading(false);
+      return;
+    }
+    const user = loginCredentials.user;
+    setIsLoading(false);
+
+    const redirectTo = links[user.role].at(0).link;
+    return navigate(redirectTo);
   }
+
   return (
     <div className=" bg-gray-100 min-h-screen flex justify-center ">
       <form
         onSubmit={handlSubmit}
-        className="w-full max-w-md bg-white   px-8 py-6 m-20"
+        className="w-full max-w-md bg-white px-8 py-6 m-20"
       >
         {/* Logo */}
         <div className="flex justify-center mb-4">
-          <img src={logo}  alt="Logo" className="w-12 h-12 object-contain" />
+          <img src={logo} alt="Logo" className="w-12 h-12 object-contain" />
         </div>
 
         {/* System name */}
@@ -73,10 +90,11 @@ function LoginForm() {
 
         {/* Login button */}
         <button
+          disablee={isLoading}
           type="submit"
           className="w-full h-9 bg-blue-600 text-white text-xs rounded-sm hover:bg-blue-700 transition"
         >
-          Login
+          {isLoading ? "Logginh in" : "Login"}
         </button>
 
         {/* Register */}

@@ -1,4 +1,5 @@
 import LoginForm from "../../../features/auth/components/LoginForm";
+import protecte from "../routes/protected";
 import publice from "../routes/public";
 
 const routesAuth = [
@@ -10,7 +11,7 @@ const routesAuth = [
   {
     path: "/register",
     element: <></>,
-    loader: async () => await publice(),
+    loader: () => protecte("admin"),
   },
 ];
 export default routesAuth;

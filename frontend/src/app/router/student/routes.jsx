@@ -1,3 +1,5 @@
+import protecte from "../routes/protected";
+
 const routStudent = [
   {
     path: "/dashboardStudent",

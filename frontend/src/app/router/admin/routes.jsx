@@ -1,3 +1,4 @@
+import DashAdmin from '../../../features/admin/pages/Dashboard';
 import protecte from '../routes/protected';
 
 /**
@@ -6,7 +7,7 @@ import protecte from '../routes/protected';
 const routes = [
   {
     path: "/dashboardAdmin",
-    element: <></>,
+    element: <DashAdmin/>,
     loader: () => protecte("admin"),
   },
   {
