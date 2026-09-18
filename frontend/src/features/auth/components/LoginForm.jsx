@@ -1,5 +1,5 @@
 import { useState } from "react";
-import loginAxios from "../../../services/axion";
+import loginAxios from "../../../services/LoginApi";
 import logo from "../../../assets/Educore.png";
 import { useNavigate } from "react-router";
 import { links } from "../../../app/router/links";
