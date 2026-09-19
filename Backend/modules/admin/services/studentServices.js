@@ -2,8 +2,8 @@ const user = require("../../auth/Models/user");
 const Parent = require("../Models/parent");
 const SchoolClass = require("../Models/SchoolClass");
 const Student = require("../Models/Student");
-const subject = require("../Models/subject");
-const teacher = require("../Models/teacher");
+const Subject = require("../Models/subject");
+const Teacher = require("../Models/teacher");
 
 async function ajouterStudentServices({
   userId,
@@ -20,12 +20,10 @@ async function ajouterStudentServices({
   }
   const parenteServices = await Parent.findById(parentId);
   const classeServices = await SchoolClass.findById(classId);
-  const teacherServices = await teacher.findById(teacherId);
+  const teacherServices = await Teacher.findById(teacherId);
   console.log("SubjectId:", SubjectId);
 
-  const SubjectServices = await subject.findById(SubjectId);
-
-  console.log("Subject:", SubjectServices);
+  const SubjectServices = await Subject.findById(SubjectId);
 
   if (
     !parenteServices ||
@@ -36,6 +34,13 @@ async function ajouterStudentServices({
     return null;
   }
 
+  const existingStudent = await Student.findOne({
+    user: userId,
+  });
+
+  if (existingStudent) {
+    return null;
+  }
   //   relation
   const creatStudent = await Student.create({
     user: userServices._id,
@@ -75,7 +80,7 @@ async function ajouterStudentServices({
     },
   );
   // teacher
-  const updatedTeacher = await teacher.findByIdAndUpdate(
+  const updatedTeacher = await Teacher.findByIdAndUpdate(
     teacherId,
     {
       $addToSet: {
@@ -88,7 +93,7 @@ async function ajouterStudentServices({
   );
 
   // Subject/matier
-  const updatedSubject = await subject.findByIdAndUpdate(
+  const updatedSubject = await Subject.findByIdAndUpdate(
     SubjectId,
     {
       $addToSet: {
@@ -104,7 +109,17 @@ async function ajouterStudentServices({
 
 // get all students
 async function affecherTousStudent() {
-  const getStudent = await Student.find();
+  const getStudent = await Student.find()
+    .populate("user", "username email")
+    .populate("classes", "name level")
+    .populate({
+      path: "parent",
+      select: "phone",
+      populate: {
+        path: "user",
+        select: "username",
+      },
+    });
   if (!getStudent) {
     return null;
   }
@@ -128,6 +143,7 @@ async function modiffierStudent(
   newClasse,
   newTeacher,
   newsubjects,
+  newUser,
 ) {
   const modiffier = await Student.findById(idStudent);
   if (!modiffier) {
@@ -137,10 +153,29 @@ async function modiffierStudent(
   const classeModiffier = modiffier.classes;
   const teacherModiffier = modiffier.teachers;
   const subjectModiffier = modiffier.subjects;
+  const userModiffier = modiffier.user;
 
-  const StudentFind = await Student.findByIdAndUpdate(idStudent, newStudent, {
-    new: true,
-  });
+  const userFind = await user.findByIdAndUpdate(
+    userModiffier,
+    {
+      username: newStudent.username,
+      email: newStudent.email,
+    },
+    {
+      new: true,
+    },
+  );
+
+  const StudentFind = await Student.findByIdAndUpdate(
+    idStudent,
+    {
+      dateOfBirth: newStudent.dateOfBirth,
+      gender: newStudent.gender,
+    },
+    {
+      new: true,
+    },
+  );
   //   parent
   const parentold = await Parent.findByIdAndUpdate(parentModiffier, {
     $pull: {
@@ -182,7 +217,7 @@ async function modiffierStudent(
   });
   //   teacher
   for (let index = 0; index < modiffier.teachers.length; index++) {
-    const classeold = await teacher.findByIdAndUpdate(
+    const classeold = await Teacher.findByIdAndUpdate(
       modiffier.teachers[index],
       {
         $pull: {
@@ -191,7 +226,7 @@ async function modiffierStudent(
       },
     );
   }
-  const teacherNew = await teacher.findByIdAndUpdate(newTeacher, {
+  const teacherNew = await Teacher.findByIdAndUpdate(newTeacher, {
     $addToSet: {
       students: idStudent,
     },
@@ -204,7 +239,7 @@ async function modiffierStudent(
 
   //   subject
   for (let index = 0; index < modiffier.subjects.length; index++) {
-    const classeold = await subject.findByIdAndUpdate(
+    const classeold = await Subject.findByIdAndUpdate(
       modiffier.subjects[index],
       {
         $pull: {
@@ -213,7 +248,7 @@ async function modiffierStudent(
       },
     );
   }
-  const subjectNew = await subject.findByIdAndUpdate(newsubjects, {
+  const subjectNew = await Subject.findByIdAndUpdate(newsubjects, {
     $addToSet: {
       students: idStudent,
     },
@@ -253,7 +288,7 @@ async function deletStudent(id) {
     );
   }
   for (let index = 0; index < getstudent.teachers.length; index++) {
-    const teachertFind = await teacher.findOneAndUpdate(
+    const teachertFind = await Teacher.findOneAndUpdate(
       getstudent.teachers[index],
       {
         $pull: {
@@ -263,7 +298,7 @@ async function deletStudent(id) {
     );
   }
   for (let index = 0; index < getstudent.subjects.length; index++) {
-    const subjectFind = await subject.findOneAndUpdate(
+    const subjectFind = await Subject.findOneAndUpdate(
       getstudent.subjects[index],
       {
         $pull: {

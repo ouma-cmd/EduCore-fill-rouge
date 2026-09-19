@@ -32,7 +32,8 @@ async function ajouterteacherServices(userID, classeId) {
 }
 // get all teachre
 async function getAllTeacherServices() {
-  const getTeacher = await teacher.find();
+  const getTeacher = await teacher.find()
+  .populate("user","username email")
   if (!getTeacher) {
     return null;
   }
