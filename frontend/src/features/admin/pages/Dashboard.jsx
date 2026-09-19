@@ -17,7 +17,6 @@ function DashAdmin() {
   useEffect(() => {
     async function dataDash() {
       const data = await dashAdmin();
-      console.log(data);
       setState(data);
     }
     dataDash();
