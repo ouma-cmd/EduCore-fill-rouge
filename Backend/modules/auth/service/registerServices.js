@@ -15,7 +15,7 @@ async function registerService(email, password, username , role) {
     return console.log("username fond");
   }
   const hash = await hachPassword(password);
-  await user.create({ username, email, password: hash , role });
-  return console.log("existe");
+  const userCreat = await user.create({ username, email, password: hash , role });
+  return userCreat
 }
 module.exports = registerService;

@@ -14,6 +14,11 @@ async function ajouterStudentServices({
   dateOfBirth,
   gender,
 }) {
+  console.log("userId:", userId);
+console.log("parentId:", parentId);
+console.log("classId:", classId);
+console.log("teacherId:", teacherId);
+console.log("SubjectId:", SubjectId);
   const userServices = await user.findById(userId);
   if (!userServices || userServices.role !== "student") {
     return null;
