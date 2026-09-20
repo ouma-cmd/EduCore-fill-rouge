@@ -1,4 +1,4 @@
-const parent = require("../Models/parent");
+const Parent = require("../Models/parent");
 const User = require("../../auth/Models/user");
 const Student = require("../Models/Student");
 
@@ -11,7 +11,7 @@ async function ajouterparentServices({ userId, phone }) {
   }
 
 
-  const creatParent = await parent.create({
+  const creatParent = await Parent.create({
     user: userId,
     phone,
   });
@@ -20,7 +20,8 @@ async function ajouterparentServices({ userId, phone }) {
 }
 
 async function afficherTousParent() {
-  const getparent = await parent.find();
+  const getparent = await Parent.find()
+  .populate("user" ,"username email")
   if (!getparent) {
     return null;
   }

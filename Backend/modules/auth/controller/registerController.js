@@ -3,10 +3,10 @@ const registerService = require("../service/registerServices");
 async function registerController(req, res, next) {
   try {
     const { username, email, password, role } = req.body;
-    await registerService(email, password, username, role);
+    const userCreat = await registerService(email, password, username, role);
 
     res.json({
-      message: "User created successfully",
+      userCreat,
     });
   } catch (error) {
     next(error);

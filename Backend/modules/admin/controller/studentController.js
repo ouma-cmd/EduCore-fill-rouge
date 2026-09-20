@@ -45,6 +45,7 @@ async function modiffierController(req, res) {
     newClasse,
     newTeacher,
     newsubjects,
+    newUser,
   } = req.body;
 
   const modiffier = await studentServices.modiffierStudent(
@@ -54,6 +55,7 @@ async function modiffierController(req, res) {
     newClasse,
     newTeacher,
     newsubjects,
+    newUser,
   );
   if (modiffier) {
     return res.json(modiffier);

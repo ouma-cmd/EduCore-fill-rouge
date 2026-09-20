@@ -4,7 +4,7 @@ import getTeacher from "../../../services/GetTeacher";
 import getClasses from "../../../services/getClasses";
 import editStudent from "../../../services/editStudent";
 
-export default function EditFormStudent({ student }) {
+export default function EditFormStudent({ student, onClose }) {
   const [username, setusername] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
@@ -46,8 +46,6 @@ export default function EditFormStudent({ student }) {
   }
 
   async function handlSubmit(e) {
-    
-
     const payload = {
       idStudent: student._id,
       newStudent: {
@@ -108,8 +106,17 @@ export default function EditFormStudent({ student }) {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <form
         onSubmit={handlSubmit}
-        className="w-full max-w-md bg-white px-8 py-6 rounded-lg shadow-lg"
+        className="relative w-full max-w-md bg-white px-8 py-6 rounded-lg shadow-lg"
       >
+        <button
+          type="button"
+          onClick={() => {
+            onClose();
+          }}
+          className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-xl"
+        >
+          ✕
+        </button>
         {/* username */}
         <div className="mb-5">
           <label className="block text-xs font-medium text-gray-800 mb-2">
