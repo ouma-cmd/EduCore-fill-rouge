@@ -1,11 +1,12 @@
 const teacherServices = require("../services/teacherServices");
 
 async function ajouterteacherController(req, res) {
-  const { userID, classeId } = req.body;
+  const { userID, classeId, subjectId } = req.body;
 
   const teacher = await teacherServices.ajouterteacherServices(
     userID,
     classeId,
+    subjectId,
   );
 
   if (!teacher) {
@@ -32,11 +33,11 @@ async function getTeacherByIdController(req, res) {
 }
 
 async function updateTeacherController(req, res) {
-  const { id, newTeacher, studentId, classeId, subjectId } = req.body;
+  const { id, username, email, classeId, subjectId } = req.body;
   const updateTeacher = await teacherServices.updateTeacher(
     id,
-    newTeacher,
-    studentId,
+    username,
+    email,
     classeId,
     subjectId,
   );
@@ -47,13 +48,8 @@ async function updateTeacherController(req, res) {
 }
 
 async function deletTeacherController(req, res) {
-  const { id, studentId, classeId, subjectId } = req.body;
-  const deletTeacher = await teacherServices.deleteTeacher(
-    id,
-    studentId,
-    classeId,
-    subjectId,
-  );
+  const id = req.params.id;
+  const deletTeacher = await teacherServices.deleteTeacher(id);
   if (!deletTeacher) {
     return res.status(400).json("not fond");
   }

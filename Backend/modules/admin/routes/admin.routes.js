@@ -49,7 +49,7 @@ routers.post("/ajouterteacher", teacherController.ajouterteacherController);
 routers.get("/getAllTeacher", teacherController.getAllTeacherController);
 routers.get("/getTeacherById/:id", teacherController.getTeacherByIdController);
 routers.put("/updateTeacher", teacherController.updateTeacherController);
-routers.delete("/deletTeacher", teacherController.deletTeacherController);
+routers.delete("/deletTeacher/:id", teacherController.deletTeacherController);
 
 // subject/matier
 routers.post("/ajouterSubject", subjectContoller.ajouterSubjectController);

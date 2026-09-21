@@ -4,7 +4,7 @@ import getClasses from "../../../services/getClasses";
 import getParent from "../../../services/GetParent";
 import getTeacher from "../../../services/GetTeacher";
 import ajouterStudent from "../../../services/ajouterStudent";
-import subjectApi from "../../../services/subject";
+import subjectApi from "../../../services/getsubject";
 
 export default function AddStudent({ onClose }) {
   const [loding, isLoading] = useState(false);
