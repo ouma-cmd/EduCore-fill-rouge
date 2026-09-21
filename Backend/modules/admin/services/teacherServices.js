@@ -1,19 +1,21 @@
 const user = require("../../auth/Models/user");
 const SchoolClass = require("../Models/SchoolClass");
 const Student = require("../Models/Student");
-const subject = require("../Models/subject");
+const Subject = require("../Models/subject");
 const teacher = require("../Models/teacher");
 
-async function ajouterteacherServices(userID, classeId) {
+async function ajouterteacherServices(userID, classeId, subjectId) {
   const userId = await user.findById(userID);
   const classeFind = await SchoolClass.findById(classeId);
-  if (!userId || userId.role !== "teacher" || !classeFind) {
+  const subjectFind = await Subject.findById(subjectId);
+  if (!userId || userId.role !== "teacher" || !classeFind || !subjectFind) {
     return null;
   }
 
   const teacherCreat = await teacher.create({
     user: userID,
     classe: [classeId],
+    subjects: [subjectId],
   });
   // classe
   const mettreajourclasse = await SchoolClass.findByIdAndUpdate(
@@ -32,8 +34,11 @@ async function ajouterteacherServices(userID, classeId) {
 }
 // get all teachre
 async function getAllTeacherServices() {
-  const getTeacher = await teacher.find()
-  .populate("user","username email")
+  const getTeacher = await teacher
+    .find()
+    .populate("user", "username email")
+    .populate("classe", "name level")
+    .populate("subjects", "name");
   if (!getTeacher) {
     return null;
   }
@@ -48,110 +53,114 @@ async function getTeacherById(id) {
   return findTeacher;
 }
 
-async function updateTeacher(id, newTeacher, studentId, classeId, subjectId) {
+// update
+async function updateTeacher(id, username, email, classeId, subjectId) {
   const findTeachr = await teacher.findById(id);
   if (!findTeachr) {
     return null;
   }
-  const studentUpdate = await findTeachr.Student(studentId);
-  const classeUpdate = await findTeachr.SchoolClass(classeId);
-  const subjectUpdate = await findTeachr.subject(subjectId);
+  const updateUser = await user.findByIdAndUpdate(
+    findTeachr.user,
+    {
+      username: username,
+      email: email,
+    },
+    { new: true },
+  );
+  const classeUpdate = findTeachr.classe;
+  const subjectUpdate = findTeachr.subjects;
 
-  if (!studentUpdate || !classeUpdate || !subjectUpdate) {
+  if (!classeUpdate || !subjectUpdate) {
     return null;
   }
 
-  //   student
-  for (let index = 0; index < studentUpdate.length; index++) {
-    const oldStudent = await teacher.findByIdAndUpdate(id[index], {
-      $pull: {
-        studens: studentId,
-      },
-    });
-  }
-
-  const newStudent = await teacher.findByIdAndUpdate(newTeacher, {
-    $addToSet: {
-      studens: studentId,
-    },
-  });
-  const updateTeacher = await Student.findByIdAndUpdate(studentId, {
-    teachers: [newTeacher],
-  });
-
   //   classe
 
-  for (let index = 0; index < classeUpdate.length; index++) {
-    const oldClasse = await teacher.findByIdAndUpdate(id[index], {
-      $pull: {
-        classe: classeId,
-      },
-    });
-  }
-  const newClasse = await teacher.findByIdAndUpdate(newTeacher, {
+  const oldClasse = await teacher.findByIdAndUpdate(id, {
+    $pull: {
+      classe: classeUpdate[0],
+    },
+  });
+  const newClasse = await teacher.findByIdAndUpdate(id, {
     $addToSet: {
       classe: classeId,
     },
   });
+  const oldClasseTeacher = await SchoolClass.findByIdAndUpdate(
+    classeUpdate[0],
+    {
+      $pull: {
+        teachers: id,
+      },
+    },
+  );
   const updateTeach = await SchoolClass.findByIdAndUpdate(classeId, {
-    $set: {
-      teachers: [newTeacher],
+    $addToSet: {
+      teachers: id,
     },
   });
 
   //   subject
-  for (let index = 0; index < subjectUpdate.length; index++) {
-    const oldSubject = await teacher.findByIdAndUpdate(id[index], {
-      $pull: {
-        subjects: subjectId,
-      },
-    });
-  }
-  const newSubject = await teacher.findByIdAndUpdate(newTeacher, {
+  const oldSubject = await teacher.findByIdAndUpdate(id, {
+    $pull: {
+      subjects: subjectUpdate[0],
+    },
+  });
+  const newSubject = await teacher.findByIdAndUpdate(id, {
     $addToSet: {
       subjects: subjectId,
     },
   });
-  const updetTeach = await subject.findByIdAndUpdate(subjectId, {
-    $set: {
-      teachers: [newTeacher],
+  const oldSubjectTeacher = await Subject.findByIdAndUpdate(subjectUpdate[0], {
+    $pull: {
+      teachers: id,
     },
   });
-  const newTeacherId = await teacher.findById(newTeacher);
+  const updetTeach = await Subject.findByIdAndUpdate(subjectId, {
+    $set: {
+      teachers: id,
+    },
+  });
+  const newTeacherId = await teacher.findById(id);
   return newTeacherId;
 }
 
-async function deleteTeacher(id, studentId, classeId, subjectId) {
+// delet teacher
+async function deleteTeacher(id) {
   const deleteTeacher = await teacher.findById(id);
   if (!deleteTeacher) {
     return null;
   }
-  const studentdelet = await deleteTeacher.Student(studentId);
-  const classedelet = await deleteTeacher.SchoolClass(classeId);
-  const subjectdelet = await deleteTeacher.subject(subjectId);
+  const studentdelet = await deleteTeacher.students;
+  const classedelet = await deleteTeacher.classe;
+  const subjectdelet = await deleteTeacher.subjects;
 
   for (let index = 0; index < studentdelet.length; index++) {
-    const deletStudent = await Student.findByIdAndUpdate(studentId[index], {
+    const deletStudent = await Student.findByIdAndUpdate(studentdelet[index], {
       $pull: {
         teachers: id,
       },
     });
   }
   for (let index = 0; index < classedelet.length; index++) {
-    const deletClasse = await SchoolClass.findByIdAndUpdate(classeId[index], {
-      $pull: {
-        teachers: id,
+    const deletClasse = await SchoolClass.findByIdAndUpdate(
+      classedelet[index],
+      {
+        $pull: {
+          teachers: id,
+        },
       },
-    });
+    );
   }
   for (let index = 0; index < subjectdelet.length; index++) {
-    const deletSubject = await subject.findByIdAndUpdate(subjectId[index], {
+    const deletSubject = await Subject.findByIdAndUpdate(subjectdelet[index], {
       $pull: {
         teachers: id,
       },
     });
   }
-  const deletteacherId = await teacher.findById(id);
+
+  const deletteacherId = await teacher.findByIdAndDelete(id);
   return deletteacherId;
 }
 
