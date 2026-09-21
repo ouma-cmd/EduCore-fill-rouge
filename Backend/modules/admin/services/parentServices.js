@@ -2,17 +2,17 @@ const Parent = require("../Models/parent");
 const User = require("../../auth/Models/user");
 const Student = require("../Models/Student");
 
-async function ajouterparentServices({ userId, phone }) {
-  console.log(userId, phone);
+async function ajouterparentServices({ userId, studentId, phone }) {
+  console.log(userId,studentId, phone);
 
   const userI = await User.findById(userId);
   if (!userI || userI.role !== "parent") {
     return null;
   }
 
-
   const creatParent = await Parent.create({
     user: userId,
+    students: [studentId],
     phone,
   });
 
@@ -21,7 +21,15 @@ async function ajouterparentServices({ userId, phone }) {
 
 async function afficherTousParent() {
   const getparent = await Parent.find()
-  .populate("user" ,"username email")
+    .populate("user", "username email")
+    .populate({
+      path: "students",
+      populate: {
+        path: "user",
+        select: "username",
+      },
+    });
+
   if (!getparent) {
     return null;
   }
@@ -29,30 +37,23 @@ async function afficherTousParent() {
 }
 
 async function afficherUnParent(id) {
-  const getParentById = await parent.findById(id);
+  const getParentById = await Parent.findById(id);
   if (!getParentById) {
     return null;
   }
   return getParentById;
 }
 
-async function updateParentServices(id, idStudent, newParent, phone) {
-  const updetParent = await parent.findById(id);
+async function updateParentServices(id, idStudent, phone, username, email) {
+  const updetParent = await Parent.findById(id);
   if (!updetParent) {
     return null;
   }
-  const studentFind = updetParent.students;
 
   console.log("1");
 
-  const oldStudent = await parent.findByIdAndUpdate(id, {
-    $pull: {
-      students: idStudent,
-    },
-  });
-  console.log("2");
-  const newStudentt = await parent.findByIdAndUpdate(
-    newParent,
+  const updatedParent = await Parent.findByIdAndUpdate(
+    id,
     {
       $addToSet: {
         students: idStudent,
@@ -65,29 +66,34 @@ async function updateParentServices(id, idStudent, newParent, phone) {
       new: true,
     },
   );
-  console.log("3");
+
+  const updatedUser = await User.findByIdAndUpdate(
+    updatedParent.user,
+    {
+      $set: {
+        username: username,
+        email: email,
+      },
+    },
+    {
+      new: true,
+    },
+  );
   const updatedStudent = await Student.findByIdAndUpdate(idStudent, {
     $set: {
-      parent: newParent,
-    },
-  });
-  const parentId = await parent.findById(newParent);
-  return parentId;
-}
-
-async function deleParentServices(id, idStudent) {
-  const deletParent = await parent.findById(id);
-  if (!deletParent) {
-    return null;
-  }
-  const findStudent = await Student.findById(idStudent);
-
-  const deletStudent = await Student.findByIdAndUpdate(idStudent, {
-    $pull: {
       parent: id,
     },
   });
-  const removeParent = await parent.findByIdAndDelete(id);
+  return updatedParent;
+}
+
+async function deleParentServices(id, idStudent) {
+  const deletParent = await Parent.findById(id);
+  if (!deletParent) {
+    return null;
+  }
+  await Student.updateMany({ parent: id }, { $unset: { parent: 1 } });
+  const removeParent = await Parent.findByIdAndDelete(id);
   return removeParent;
 }
 

@@ -39,7 +39,8 @@ const StudentSchema = new mongoose.Schema(
     parent: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Parent",
-      required: true,
+      required: false,
+      default:null,
     },
   },
   { timestamps: true },

@@ -41,7 +41,7 @@ routers.put("/modiffierStudent", studentController.modiffierController);
 routers.post("/ajouterParent", parentController.ajouterparentController);
 routers.get("/getParent", parentController.afficherTousParentController);
 routers.get("/getByIdParent/:id", parentController.afficherUnParentController);
-routers.put("/modiffierParent/:id", parentController.updateParentController);
+routers.put("/modiffierParent", parentController.updateParentController);
 routers.delete("/deleteParent/:id", parentController.deletParentController);
 
 // teacher

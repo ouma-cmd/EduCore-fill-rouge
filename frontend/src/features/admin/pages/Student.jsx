@@ -31,8 +31,8 @@ function Student() {
   }
 
   function handlView(st) {
-    console.log(st);
     setView(st);
+      console.log(st);
   }
 
 
