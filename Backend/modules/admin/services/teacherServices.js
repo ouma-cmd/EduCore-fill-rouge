@@ -117,7 +117,7 @@ async function updateTeacher(id, username, email, classeId, subjectId) {
     },
   });
   const updetTeach = await Subject.findByIdAndUpdate(subjectId, {
-    $set: {
+    $addToSet: {
       teachers: id,
     },
   });

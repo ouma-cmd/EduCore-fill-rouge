@@ -1,10 +1,11 @@
 const parentServices = require("../services/parentServices");
 
 async function ajouterparentController(req, res) {
-  const { userId, phone } = req.body;
+  const { userId, studentId, phone } = req.body;
 
   const createParent = await parentServices.ajouterparentServices({
     userId,
+    studentId,
     phone,
   });
   if (!createParent) {
@@ -31,13 +32,13 @@ async function afficherUnParentController(req, res) {
 }
 
 async function updateParentController(req, res) {
-  const id = req.params.id;
-  const { idStudent, newParent, phone } = req.body;
+  const { id, idStudent, phone, username, email } = req.body;
   const updateParent = await parentServices.updateParentServices(
     id,
     idStudent,
-    newParent,
     phone,
+    username,
+    email,
   );
   if (!updateParent) {
     return res.status(400).json("not fond");
