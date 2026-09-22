@@ -15,10 +15,10 @@ async function ajouterStudentServices({
   gender,
 }) {
   console.log("userId:", userId);
-console.log("parentId:", parentId);
-console.log("classId:", classId);
-console.log("teacherId:", teacherId);
-console.log("SubjectId:", SubjectId);
+  console.log("parentId:", parentId);
+  console.log("classId:", classId);
+  console.log("teacherId:", teacherId);
+  console.log("SubjectId:", SubjectId);
   const userServices = await user.findById(userId);
   if (!userServices || userServices.role !== "student") {
     return null;
@@ -151,6 +151,7 @@ async function modiffierStudent(
   newUser,
 ) {
   const modiffier = await Student.findById(idStudent);
+  console.log("EDIT STUDENT:", modiffier);
   if (!modiffier) {
     return null;
   }
@@ -159,6 +160,12 @@ async function modiffierStudent(
   const teacherModiffier = modiffier.teachers;
   const subjectModiffier = modiffier.subjects;
   const userModiffier = modiffier.user;
+
+  console.log("parentModiffier:", parentModiffier);
+  console.log("classeModiffier:", classeModiffier);
+  console.log("teacherModiffier:", teacherModiffier);
+  console.log("subjectModiffier:", subjectModiffier);
+  console.log("userModiffier:", userModiffier);
 
   const userFind = await user.findByIdAndUpdate(
     userModiffier,
@@ -270,21 +277,27 @@ async function modiffierStudent(
 // supprimer student
 async function deletStudent(id) {
   const getstudent = await Student.findById(id);
+
   if (!getstudent) {
     return null;
   }
-  const parent = getstudent.parent;
-  const classe = getstudent.classes;
-  const teacher = getstudent.teachers;
-  const subject = getstudent.subjects;
-  const parentFind = await Parent.findOneAndUpdate(parent, {
-    $pull: {
-      students: id,
-    },
-  });
+
+  // Parent
+  if (getstudent.parent) {
+    await Parent.findOneAndUpdate(
+      { _id: getstudent.parent },
+      {
+        $pull: {
+          students: id,
+        },
+      },
+    );
+  }
+
+  // Classes
   for (let index = 0; index < getstudent.classes.length; index++) {
-    const classeFind = await SchoolClass.findOneAndUpdate(
-      getstudent.classes[index],
+    await SchoolClass.findOneAndUpdate(
+      { _id: getstudent.classes[index] },
       {
         $pull: {
           students: id,
@@ -292,9 +305,11 @@ async function deletStudent(id) {
       },
     );
   }
+
+  // Teachers
   for (let index = 0; index < getstudent.teachers.length; index++) {
-    const teachertFind = await Teacher.findOneAndUpdate(
-      getstudent.teachers[index],
+    await Teacher.findOneAndUpdate(
+      { _id: getstudent.teachers[index] },
       {
         $pull: {
           students: id,
@@ -302,9 +317,11 @@ async function deletStudent(id) {
       },
     );
   }
+
+  // Subjects
   for (let index = 0; index < getstudent.subjects.length; index++) {
-    const subjectFind = await Subject.findOneAndUpdate(
-      getstudent.subjects[index],
+    await Subject.findOneAndUpdate(
+      { _id: getstudent.subjects[index] },
       {
         $pull: {
           students: id,
@@ -312,13 +329,16 @@ async function deletStudent(id) {
       },
     );
   }
+
+  // Delete Student
   const removeStudent = await Student.findByIdAndDelete(id);
+
   if (!removeStudent) {
     return null;
   }
+
   return removeStudent;
 }
-
 module.exports = {
   ajouterStudentServices,
   affecherTousStudent,

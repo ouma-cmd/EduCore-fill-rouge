@@ -19,3 +19,4 @@ export default async function getTeacher() {
     return error.message;
   }
 }
+
