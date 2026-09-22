@@ -1,18 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import getClasses from "../../../services/getClasses";
+import EditFormClasses from "../components/EditClasses";
+import deletClasse from "../../../services/deletClasse";
+import AddClasse from "../components/AddClasse";
+import ViewClasse from "../components/ViewClasse";
 
 export default function Classes() {
   const [search, setSearch] = useState("");
-  const [state, setstate] = useState();
+  const [classe, setclasse] = useState("");
+  const [classes, setClasses] = useState([]);
+  const [Classenow, setClassenow] = useState(null);
+  const [delet, setDelet] = useState([]);
+  const [ajouter, setAjouter] = useState(null);
+  const [view, setView] = useState(null);
+
+  function getClass(e) {
+    setclasse(e.target.value);
+  }
+  function handlAdd(e) {
+    setAjouter(true);
+  }
+  function handlEdit(cl) {
+    setClassenow(cl);
+  }
+  async function handlDelet(id) {
+    const result = await deletClasse(id);
+    if (result) {
+      setDelet((delet) => {
+        return delet.filter((item) => {
+          return item._id !== id;
+        });
+      });
+    }
+  }
+  function handlView(cl) {
+    setView(cl);
+  }
+
+  useEffect(() => {
+    async function fetchClasse() {
+      const data = await getClasses();
+      if (Array.isArray(data)) {
+        setClasses(data);
+      }
+    }
+    fetchClasse();
+  });
   return (
     <div className="p-6">
-      {/* {studentnow && (
-        <EditFormStudent
-          student={studentnow}
-          onClose={() => setstudentnow(false)}
+      {Classenow && (
+        <EditFormClasses
+          classe={Classenow}
+          onClose={() => setClassenow(false)}
         />
       )}
-      {ajouter && <AddStudent onClose={() => setAjouter(false)} />}
-      {view && <ViewStudent student={view} onClose={() => setView(false)} />} */}
+      {ajouter && <AddClasse onClose={() => setAjouter(false)} />}
+      {view && <ViewClasse classe={view} onClose={() => setView(false)} />}
 
       <header>
         <h1 className="text-2xl font-bold text-gray-900 py-5">Classes</h1>
@@ -55,11 +98,10 @@ export default function Classes() {
             </thead>
 
             <tbody className="divide-y divide-gray-100">
-              {(state || [])
+              {console.log(classes)}
+              {(classes || [])
                 .filter((filt) => {
-                  return filt.user.username
-                    .toLowerCase()
-                    .includes(search.toLowerCase());
+                  return filt.name.toLowerCase().includes(search.toLowerCase());
                 })
                 .map((cl) => {
                   return (
@@ -68,22 +110,10 @@ export default function Classes() {
                       className="hover:bg-gray-50 transition-colors"
                     >
                       <td className="px-6 py-4 font-medium text-gray-900">
-                        {cl.user.username}
+                        {cl.name}
                       </td>
 
-                      <td className="px-6 py-4 text-gray-600">
-                        {cl.user.email}
-                      </td>
-
-                      <td className="px-6 py-4">
-                        <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700">
-                          {cl.gender}
-                        </span>
-                      </td>
-
-                      <td className="px-6 py-4 text-gray-600">
-                        {cl.parent.user.username}
-                      </td>
+                      <td className="px-6 py-4 text-gray-600">{cl.level}</td>
                       <td className="px-6 py-4">
                         <div className="flex gap-2">
                           <button
