@@ -17,7 +17,13 @@ async function ajouterSubjecteServices(name, teachers, coefficient) {
 }
 
 async function getAllSubject() {
-  const getAllSubject = await subject.find();
+  const getAllSubject = await subject.find().populate({
+    path: "teachers",
+    populate: {
+      path: "user",
+      select: "username email",
+    },
+  });
   if (!getAllSubject) {
     return null;
   }
@@ -32,71 +38,42 @@ async function getSubjectById(id) {
   return getsubject;
 }
 
-async function modiffierSubjectServices(
-  idSubject,
-  newSubject,
-  idStudent,
-  newStudent,
-  idteacher,
-  newTeacher,
-  coefficient,
-) {
-  const modiffierSubject = await subject.findById(idSubject);
-  if (!modiffierSubject) {
+async function modiffierSubjectServices(id, name, newTeacher, coefficient) {
+  const findSubject = await subject.findById(id);
+
+  if (!findSubject) {
     return null;
   }
-  const student = modiffierSubject.students;
-  const teacherss = modiffierSubject.teachers;
 
-  const moduffier = await subject.findByIdAndUpdate(idSubject, newSubject, {
-    new: true,
-  });
+  const oldTeacher = findSubject.teachers[0];
 
-  //   student
-  const modiffierParent = await Student.findByIdAndUpdate(idStudent, {
-    $pull: {
-      subjects: idSubject,
-    },
-  });
-  const newStudentt = await Student.findByIdAndUpdate(newStudent, {
+  if (oldTeacher) {
+    await teacher.findByIdAndUpdate(oldTeacher, {
+      $pull: {
+        subjects: id,
+      },
+    });
+  }
+
+  await teacher.findByIdAndUpdate(newTeacher, {
     $addToSet: {
-      subjects: idSubject,
-    },
-  });
-  const misseajourStudent = await subject.findByIdAndUpdate(idSubject, {
-    $addToSet: {
-      students: newStudent,
-    },
-  });
-  const deletStudent = await subject.findByIdAndUpdate(idSubject, {
-    $pull: {
-      students: idStudent,
+      subjects: id,
     },
   });
 
-  //   teacher
-  const oldTeacher = await teacher.findByIdAndUpdate(idteacher, {
-    $pull: {
-      subjects: idSubject,
+  const updatedSubject = await subject.findByIdAndUpdate(
+    id,
+    {
+      name,
+      coefficient,
+      teachers: [newTeacher],
     },
-  });
-  const newteachers = await teacher.findByIdAndUpdate(newTeacher, {
-    $addToSet: {
-      subjects: idSubject,
+    {
+      new: true,
     },
-  });
-  const updateteacher = await subject.findByIdAndUpdate(idSubject, {
-    $addToSet: {
-      teachers: newteachers,
-    },
-  });
-  const deletteacher = await subject.findByIdAndUpdate(idSubject, {
-    $pull: {
-      teachers: idteacher,
-    },
-  });
-  const updetSubject = await subject.findById(idSubject);
-  return updetSubject;
+  );
+
+  return updatedSubject;
 }
 
 async function deletSubjectServices(id) {

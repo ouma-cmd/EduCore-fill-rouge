@@ -32,6 +32,20 @@ function Sidebar() {
               Dashboard
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/User"
+              className={({ isActive }) =>
+                `block px-4 py-3 rounded-lg text-sm font-medium transition ${
+                  isActive
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-blue-600"
+                }`
+              }
+            >
+              User
+            </NavLink>
+          </li>
 
           <li>
             <NavLink
