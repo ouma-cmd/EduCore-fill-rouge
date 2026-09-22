@@ -63,6 +63,8 @@ export default function EditFormStudent({ student, onClose }) {
   }
 
   useEffect(() => {
+      console.log("STUDENT EDIT:", student);
+
     setusername(student.user.username);
     setEmail(student.user.email);
     setGender(student.gender);
@@ -256,7 +258,7 @@ export default function EditFormStudent({ student, onClose }) {
           type="submit"
           className="w-full h-9 bg-blue-600 text-white text-xs rounded-sm hover:bg-blue-700 transition"
         >
-          {isLoading ? "Edit in" : "Edit"}
+          {loding ? "Edit in" : "Edit"}
         </button>
       </form>
     </div>

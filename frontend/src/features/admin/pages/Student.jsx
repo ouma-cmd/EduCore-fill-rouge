@@ -32,13 +32,13 @@ function Student() {
 
   function handlView(st) {
     setView(st);
-      console.log(st);
+    console.log(st);
   }
-
 
   useEffect(() => {
     async function dataStuden() {
       const data = await student();
+      console.log("STUDENTS FROM BACKEND:", data);
       if (Array.isArray(data)) {
         setState(data);
       } else {
@@ -108,7 +108,7 @@ function Student() {
             <tbody className="divide-y divide-gray-100">
               {(state || [])
                 .filter((filt) => {
-                  return filt.user.username
+                  return (filt.user?.username || "")
                     .toLowerCase()
                     .includes(search.toLowerCase());
                 })
@@ -119,11 +119,11 @@ function Student() {
                       className="hover:bg-gray-50 transition-colors"
                     >
                       <td className="px-6 py-4 font-medium text-gray-900">
-                        {st.user.username}
+                        {st.user?.username || ""}
                       </td>
 
                       <td className="px-6 py-4 text-gray-600">
-                        {st.user.email}
+                        {st.user?.email || ""}
                       </td>
 
                       <td className="px-6 py-4">
@@ -133,7 +133,7 @@ function Student() {
                       </td>
 
                       <td className="px-6 py-4 text-gray-600">
-                        {st.parent.user.username}
+                        {st.parent?.user?.username}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex gap-2">

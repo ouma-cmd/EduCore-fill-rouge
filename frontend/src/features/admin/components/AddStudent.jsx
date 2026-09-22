@@ -64,8 +64,8 @@ export default function AddStudent({ onClose }) {
       SubjectId: subject,
       gender: gender,
     };
-   const result = await ajouterStudent(dateAjouter);
-console.log("RESULT:", result);
+    const result = await ajouterStudent(dateAjouter);
+    console.log("RESULT:", result);
   }
 
   useEffect(() => {

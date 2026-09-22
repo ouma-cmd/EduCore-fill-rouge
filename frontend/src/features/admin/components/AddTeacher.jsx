@@ -35,15 +35,15 @@ export default function AddTeacher({ onClose }) {
       classeId: classe,
       subjectId: subject,
     };
-      console.log("PAYLOAD:", payload);
+    console.log("PAYLOAD:", payload);
     const result = await ajouterTeacher(payload);
-        console.log("RESULT:", result);
+    console.log("RESULT:", result);
   }
 
   useEffect(() => {
     async function addUser() {
       const data = await user();
-      
+
       if (Array.isArray(data)) {
         return setUsers(data);
       }
