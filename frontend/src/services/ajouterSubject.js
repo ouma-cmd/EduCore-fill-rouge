@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export default async function editSubject({ id, payload }) {
+export default async function ajouterSubject(payload) {
   try {
     const token = localStorage.getItem("token");
-    const responce = await axios.put(
-      `http://localhost:3000/admin/modiffierSubject/${id}`,
+    const responce = await axios.post(
+      "http://localhost:3000/admin/ajouterSubject",
       payload,
       {
         headers: {

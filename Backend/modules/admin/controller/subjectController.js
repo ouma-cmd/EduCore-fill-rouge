@@ -31,22 +31,12 @@ async function getSubjectByIdController(req, res) {
 }
 
 async function updeteSubjectController(req, res) {
-  const {
-    idSubject,
-    newSubject,
-    idStudent,
-    newStudent,
-    idteacher,
-    newTeacher,
-    coefficient,
-  } = req.body;
+  const id = req.params.id;
+  const { name, teacher, coefficient } = req.body;
   const ubdetSubject = await SubjecteServices.modiffierSubjectServices(
-    idSubject,
-    newSubject,
-    idStudent,
-    newStudent,
-    idteacher,
-    newTeacher,
+    id,
+    name,
+    teacher,
     coefficient,
   );
   if (!ubdetSubject) {

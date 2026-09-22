@@ -6,6 +6,7 @@ import Settings from "../../../features/admin/pages/Settings";
 import Student from "../../../features/admin/pages/student";
 import Subjects from "../../../features/admin/pages/Subject";
 import Teachers from "../../../features/admin/pages/Teacher";
+import USer from "../../../features/admin/pages/User";
 import protecte from "../routes/protected";
 
 /**
@@ -18,6 +19,11 @@ const routes = [
       {
         path: "/dashboardAdmin",
         element: <DashAdmin />,
+        loader: () => protecte("admin"),
+      },
+      {
+        path: "/User",
+        element: <USer/>,
         loader: () => protecte("admin"),
       },
       {

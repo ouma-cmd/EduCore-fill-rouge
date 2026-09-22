@@ -55,7 +55,7 @@ routers.delete("/deletTeacher/:id", teacherController.deletTeacherController);
 routers.post("/ajouterSubject", subjectContoller.ajouterSubjectController);
 routers.get("/getAllSubject", subjectContoller.getAllSubjectController);
 routers.get("/getSubjectById", subjectContoller.getSubjectByIdController);
-routers.put("/modiffierSubject", subjectContoller.updeteSubjectController);
+routers.put("/modiffierSubject/:id", subjectContoller.updeteSubjectController);
 routers.delete("/deleteSubject/:id", subjectContoller.deletSubjectController);
 
 // annonce

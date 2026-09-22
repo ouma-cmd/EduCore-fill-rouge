@@ -55,7 +55,7 @@ export default function EditFormClasses({ classe, onClose }) {
             onChange={(e) => {
               nameChange(e);
             }}
-            placeholder="Enter username"
+            placeholder="Enter name"
             className="w-full h-9 px-3 text-[10px] border border-gray-200 rounded-sm outline-none focus:border-blue-500"
           />
         </div>
@@ -71,7 +71,7 @@ export default function EditFormClasses({ classe, onClose }) {
             onChange={(e) => {
               levelChange(e);
             }}
-            placeholder="Enter your email"
+            placeholder="Enter your level"
             className="w-full h-9 px-3 text-[10px] border border-gray-200 rounded-sm outline-none focus:border-blue-500"
           />
         </div>
