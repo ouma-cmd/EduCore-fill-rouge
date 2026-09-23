@@ -1,5 +1,8 @@
 const user = require("../../auth/Models/user");
 const hachPassword = require("../../auth/utils/hachPassword");
+const parent = require("../Models/parent");
+const Student = require("../Models/Student");
+const teacher = require("../Models/teacher");
 
 //ajouter user
 async function AjouterUserServices(username, email, password, role) {
@@ -49,11 +52,36 @@ async function modiffierUserByIdServices(id, userBody) {
 
 // supprimer user by Id
 async function supprimerUserByIdServices(id) {
-  const deletUserById = await user.findByIdAndDelete(id);
-  if (!deletUserById) {
-    return "not fond";
+  const findUser = await user.findById(id);
+
+  if (!findUser) {
+    return "not found";
   }
-  return deletUserById;
+  if (findUser.role === "student") {
+    const student = await Student.findOne({ user: findUser._id });
+
+    if (student) {
+      // Remove student from parent
+      if (student.parent) {
+        await parent.findByIdAndUpdate(student.parent, {
+          $pull: { students: student._id },
+        });
+      }
+
+      // Remove student from teachers
+      await teacher.updateMany(
+        { students: student._id },
+        { $pull: { students: student._id } },
+      );
+
+      // Delete student profile
+      await Student.findByIdAndDelete(student._id);
+    }
+  }
+
+  await user.findByIdAndDelete(id);
+
+  return findUser;
 }
 
 module.exports = {

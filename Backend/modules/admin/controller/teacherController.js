@@ -33,7 +33,8 @@ async function getTeacherByIdController(req, res) {
 }
 
 async function updateTeacherController(req, res) {
-  const { id, username, email, classeId, subjectId } = req.body;
+  const id = req.params.id
+  const { username, email, classeId, subjectId } = req.body;
   const updateTeacher = await teacherServices.updateTeacher(
     id,
     username,
@@ -44,6 +45,7 @@ async function updateTeacherController(req, res) {
   if (!updateTeacher) {
     return res.status(400).json("not fond");
   }
+  
   return res.status(200).json(updateTeacher);
 }
 

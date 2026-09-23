@@ -48,7 +48,7 @@ routers.delete("/deleteParent/:id", parentController.deletParentController);
 routers.post("/ajouterteacher", teacherController.ajouterteacherController);
 routers.get("/getAllTeacher", teacherController.getAllTeacherController);
 routers.get("/getTeacherById/:id", teacherController.getTeacherByIdController);
-routers.put("/updateTeacher", teacherController.updateTeacherController);
+routers.put("/updateTeacher/:id", teacherController.updateTeacherController);
 routers.delete("/deletTeacher/:id", teacherController.deletTeacherController);
 
 // subject/matier

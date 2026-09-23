@@ -8,6 +8,14 @@ async function changePasswordController(req, res) {
     oldPassword,
     newPassword,
   );
-  return res.json(changePassword);
+  if (changePassword === "password not right") {
+    return res.status(400).json({
+      message: "Current password is incorrect",
+    });
+  }
+
+  return res.status(200).json({
+    message: "Password changed successfully",
+  });
 }
 module.exports = changePasswordController;

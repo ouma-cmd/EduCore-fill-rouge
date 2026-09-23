@@ -65,14 +65,14 @@ export default function AddStudent({ onClose }) {
       gender: gender,
     };
     const result = await ajouterStudent(dateAjouter);
-    console.log("RESULT:", result);
   }
 
   useEffect(() => {
     async function fetchUser() {
       const data = await user();
-      if (Array.isArray(data)) {
-        setUsers(data);
+
+      if (data?.getUser) {
+        setUsers(data.getUser);
       }
     }
     fetchUser();
@@ -91,6 +91,7 @@ export default function AddStudent({ onClose }) {
   useEffect(() => {
     async function fetchUser() {
       const data = await getParent();
+      console.log("parent",data);
       if (Array.isArray(data)) {
         setParents(data);
       }
@@ -101,6 +102,8 @@ export default function AddStudent({ onClose }) {
   useEffect(() => {
     async function fetchUser() {
       const data = await getTeacher();
+      console.log(data);
+      
       if (Array.isArray(data)) {
         setTeachrs(data);
       }
@@ -111,6 +114,8 @@ export default function AddStudent({ onClose }) {
   useEffect(() => {
     async function fetchUser() {
       const data = await subjectApi();
+      
+      
       if (Array.isArray(data)) {
         setsubjects(data);
       }
@@ -153,7 +158,7 @@ export default function AddStudent({ onClose }) {
                 {users.map((user) => {
                   return (
                     <option key={user._id} value={user._id}>
-                      {user.username}
+                      {user?.username}
                     </option>
                   );
                 })}
@@ -174,6 +179,7 @@ export default function AddStudent({ onClose }) {
               }}
               className="w-full h-9 px-3 text-[10px] border border-gray-200 rounded-sm outline-none focus:border-blue-500"
             >
+              <option value="">select gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
@@ -240,7 +246,7 @@ export default function AddStudent({ onClose }) {
               {parents.map((parent) => {
                 return (
                   <option key={parent._id} value={parent._id}>
-                    {parent.user.username}
+                    {parent.user?.username || "Unknown parent"}
                   </option>
                 );
               })}
@@ -266,7 +272,7 @@ export default function AddStudent({ onClose }) {
               {teachers.map((teacher) => {
                 return (
                   <option key={teacher._id} value={teacher._id}>
-                    {teacher.user.username}
+                    {teacher.user?.username || "Unknown teacher"}
                   </option>
                 );
               })}

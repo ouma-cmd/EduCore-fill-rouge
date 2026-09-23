@@ -42,8 +42,8 @@ export default function AddParent({ onClose }) {
   useEffect(() => {
     async function fetchUser() {
       const data = await user();
-      if (Array.isArray(data)) {
-        setUsers(data);
+      if (data.getUser) {
+        setUsers(data.getUser);
       }
     }
     fetchUser();
@@ -106,7 +106,7 @@ export default function AddParent({ onClose }) {
               {users.map((user) => {
                 return (
                   <option key={user._id} value={user._id}>
-                    {user.username}
+                    {user?.username}
                   </option>
                 );
               })}
