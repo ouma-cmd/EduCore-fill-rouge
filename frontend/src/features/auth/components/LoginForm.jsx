@@ -96,14 +96,6 @@ function LoginForm() {
         >
           {isLoading ? "Logginh in" : "Login"}
         </button>
-
-        {/* Register */}
-        <p className="text-center text-[9px] text-gray-700 mt-3">
-          Don't have an account?{" "}
-          <span className="text-blue-600 cursor-pointer hover:underline">
-            Register
-          </span>
-        </p>
       </form>
     </div>
   );

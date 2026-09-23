@@ -55,74 +55,83 @@ async function getTeacherById(id) {
 
 // update
 async function updateTeacher(id, username, email, classeId, subjectId) {
-  const findTeachr = await teacher.findById(id);
-  if (!findTeachr) {
+  const findTeacher = await teacher.findById(id);
+
+  if (!findTeacher) {
     return null;
   }
-  const updateUser = await user.findByIdAndUpdate(
-    findTeachr.user,
+
+  // Vérifier les nouvelles données
+  const newClasse = await SchoolClass.findById(classeId);
+  const newSubject = await Subject.findById(subjectId);
+
+  if (!newClasse || !newSubject) {
+    return null;
+  }
+
+  // Modifier username + email
+  await user.findByIdAndUpdate(
+    findTeacher.user,
     {
-      username: username,
-      email: email,
+      username,
+      email,
     },
     { new: true },
   );
-  const classeUpdate = findTeachr.classe;
-  const subjectUpdate = findTeachr.subjects;
 
-  if (!classeUpdate || !subjectUpdate) {
-    return null;
-  }
+  // CLASSE
 
-  //   classe
+  const oldClasseId = findTeacher.classe[0];
 
-  const oldClasse = await teacher.findByIdAndUpdate(id, {
-    $pull: {
-      classe: classeUpdate[0],
-    },
-  });
-  const newClasse = await teacher.findByIdAndUpdate(id, {
-    $addToSet: {
-      classe: classeId,
-    },
-  });
-  const oldClasseTeacher = await SchoolClass.findByIdAndUpdate(
-    classeUpdate[0],
-    {
+  // Supprimer teacher de l'ancienne classe
+  if (oldClasseId) {
+    await SchoolClass.findByIdAndUpdate(oldClasseId, {
       $pull: {
         teachers: id,
       },
-    },
-  );
-  const updateTeach = await SchoolClass.findByIdAndUpdate(classeId, {
+    });
+  }
+
+  // Ajouter teacher dans la nouvelle classe
+  await SchoolClass.findByIdAndUpdate(classeId, {
     $addToSet: {
       teachers: id,
     },
   });
 
-  //   subject
-  const oldSubject = await teacher.findByIdAndUpdate(id, {
-    $pull: {
-      subjects: subjectUpdate[0],
+  // Remplacer classe dans Teacher
+  await teacher.findByIdAndUpdate(id, {
+    $set: {
+      classe: [classeId],
     },
   });
-  const newSubject = await teacher.findByIdAndUpdate(id, {
+
+  // SUBJECT
+  const oldSubjectId = findTeacher.subjects[0];
+  // Supprimer teacher de l'ancien subject
+  if (oldSubjectId) {
+    await Subject.findByIdAndUpdate(oldSubjectId, {
+      $pull: {
+        teachers: id,
+      },
+    });
+  }
+  // Ajouter teacher dans le nouveau subject
+  await Subject.findByIdAndUpdate(subjectId, {
     $addToSet: {
-      subjects: subjectId,
-    },
-  });
-  const oldSubjectTeacher = await Subject.findByIdAndUpdate(subjectUpdate[0], {
-    $pull: {
       teachers: id,
     },
   });
-  const updetTeach = await Subject.findByIdAndUpdate(subjectId, {
-    $addToSet: {
-      teachers: id,
+  // Remplacer subject dans Teacher
+  await teacher.findByIdAndUpdate(id, {
+    $set: {
+      subjects: [subjectId],
     },
   });
-  const newTeacherId = await teacher.findById(id);
-  return newTeacherId;
+
+  const updatedTeacher = await teacher.findById(id);
+
+  return updatedTeacher;
 }
 
 // delet teacher

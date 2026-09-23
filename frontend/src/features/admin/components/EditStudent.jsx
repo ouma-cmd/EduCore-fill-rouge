@@ -199,7 +199,7 @@ export default function EditFormStudent({ student, onClose }) {
             {parents.map((parent) => {
               return (
                 <option key={parent._id} value={parent._id}>
-                  {parent.user.username}
+                  {parent.user?.username}
                 </option>
               );
             })}
@@ -222,7 +222,7 @@ export default function EditFormStudent({ student, onClose }) {
             {teachers.map((teacher) => {
               return (
                 <option key={teacher._id} value={teacher._id}>
-                  {teacher.user.username}
+                  {teacher.user?.username}
                 </option>
               );
             })}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import getClasses from "../../../services/getClasses";
 import subjectApi from "../../../services/getsubject";
 import editSubject from "../../../services/editSubject";
+import editTeacher from "../../../services/editTeacher";
 
 export default function EditTeacher({ teacher, onClose }) {
   const [loding, isLoading] = useState(false);
@@ -27,16 +28,18 @@ export default function EditTeacher({ teacher, onClose }) {
     setSubject(e.target.value);
   }
 
-  async function handlSubmit() {
+  async function handlSubmit(e) {
+    e.preventDefault();
     const payload = {
-      id: teacher._id,
       username: username,
       email: email,
       classeId: classe,
       subjectId: subject,
     };
-
-    const result = await editSubject(payload);
+    const result = await editTeacher({
+      id: teacher._id,
+      payload,
+    });
   }
 
   useEffect(() => {
@@ -75,8 +78,8 @@ export default function EditTeacher({ teacher, onClose }) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <form
-        onSubmit={() => {
-          handlSubmit();
+        onSubmit={(e) => {
+          handlSubmit(e);
         }}
         className="relative w-full max-w-md bg-white px-8 py-6 rounded-lg shadow-lg"
       >
@@ -135,6 +138,7 @@ export default function EditTeacher({ teacher, onClose }) {
             placeholder="Enter teacher"
             className="w-full h-9 px-3 text-[10px] border border-gray-200 rounded-sm outline-none focus:border-blue-500"
           >
+            <option value="">select subject</option>
             {subjects.map((subject) => {
               return (
                 <option key={subject._id} value={subject._id}>
@@ -158,6 +162,7 @@ export default function EditTeacher({ teacher, onClose }) {
             placeholder="Enter classe"
             className="w-full h-9 px-3 text-[10px] border border-gray-200 rounded-sm outline-none focus:border-blue-500"
           >
+            <option value="">select classe</option>
             {classes.map((classe) => {
               return (
                 <option key={classe._id} value={classe._id}>

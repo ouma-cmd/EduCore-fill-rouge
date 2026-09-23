@@ -21,7 +21,7 @@ dashrout.get(
   dashboardParentController,
 );
 dashrout.get(
-  "/dashTeacher/:id",
+  "/dashTeacher",
   roleteacherMiddlewere,
   dashboardTeacherController,
 );

@@ -108,7 +108,7 @@ export default function Parent({ onClose }) {
                 </th>
 
                 <th className="px-6 py-4 text-sm font-semibold text-gray-700">
-                  Student
+                  Enfants
                 </th>
 
                 <th className="px-6 py-4 text-sm font-semibold text-gray-700">
@@ -120,7 +120,7 @@ export default function Parent({ onClose }) {
             <tbody className="divide-y divide-gray-100">
               {(state || [])
                 .filter((filt) => {
-                  return filt.user.username
+                  return filt.user?.username
                     .toLowerCase()
                     .includes(search.toLowerCase());
                 })
@@ -133,7 +133,7 @@ export default function Parent({ onClose }) {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
                           <span className="font-medium text-gray-900">
-                            {par.user.username}
+                            {par.user?.username}
                           </span>
                         </div>
                       </td>

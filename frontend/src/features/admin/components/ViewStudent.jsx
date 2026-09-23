@@ -23,7 +23,7 @@ export default function ViewStudent({ student, onClose }) {
           <div>
             <p className="text-xs font-medium text-gray-500">Username</p>
             <p className="mt-1 text-sm font-semibold text-gray-900">
-              {student.user.username}
+              {student.user?.username || "Unknown usernam"}
             </p>
           </div>
 
@@ -51,7 +51,7 @@ export default function ViewStudent({ student, onClose }) {
           <div>
             <p className="text-xs font-medium text-gray-500">Parent</p>
             <p className="mt-1 text-sm font-semibold text-gray-900">
-              {student.parent.user.username}
+              {student.parent.user?.username}
             </p>
           </div>
 

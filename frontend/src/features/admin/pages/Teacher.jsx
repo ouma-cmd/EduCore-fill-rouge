@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import getTeacher from "../../../services/GetTeacher";
 import deletTeacher from "../../../services/deletTeacher";
 import EditTeacher from "../components/EditTeacher";
-import ViewTeacher from "../components/ViewTeacher";
 import AddTeacher from "../components/AddTeacher";
+import ViewTeacher from "../components/ViewTeacher";
 
 export default function Teachers() {
   const [teachers, setTeachers] = useState([]);

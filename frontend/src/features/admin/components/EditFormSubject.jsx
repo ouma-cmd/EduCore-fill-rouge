@@ -109,10 +109,11 @@ export default function EditFormSubject({ subject, onClose }) {
             placeholder="Enter your coefficient"
             className="w-full h-9 px-3 text-[10px] border border-gray-200 rounded-sm outline-none focus:border-blue-500"
           >
+            <option value="">select teacher</option>
             {Teachers.map((sub) => {
               return (
                 <option key={sub._id} value={sub._id}>
-                  {sub.user.username}
+                  {sub.user?.username}
                 </option>
               );
             })}
