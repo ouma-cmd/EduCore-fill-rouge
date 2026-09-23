@@ -12,7 +12,7 @@ export default function ViewTeacher({ onClose, teacher }) {
 
         {/* Header */}
         <div className="mb-6 border-b border-gray-200 pb-4">
-          <h2 className="text-2xl font-bold text-gray-900">Student Details</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Teacher Details</h2>
           <p className="mt-1 text-sm text-gray-500">
             Informations about this Teacher
           </p>

@@ -14,18 +14,19 @@ async function AjouterUserServices(username, email, password, role) {
 }
 
 // afficher users
-async function AfficherUserServices(role) {
-  if (role) {
-    const getUser = await user.find({ role });
-    return getUser;
-  }
+async function AfficherUserServices(role, page = 1, limit = 5) {
+  const skip = (page - 1) * limit;
 
-  const getUser = await user.find();
-  if (getUser.length) {
-    return getUser;
-  } else {
-    return "not fond";
-  }
+  const filter = role ? { role } : {};
+  const getUser = await user.find(filter).skip(skip).limit(limit);
+  const totaleUser = await user.countDocuments(filter);
+
+  return {
+    getUser,
+    currentPage: page,
+    totaleUser,
+    totalPages: Math.ceil(totaleUser / limit),
+  };
 }
 
 // get user by id
