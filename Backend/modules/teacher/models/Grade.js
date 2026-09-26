@@ -17,7 +17,6 @@ const GradeSchema = new mongoose.Schema(
     teacher: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Teacher",
-      required: true,
     },
     subject: {
       type: mongoose.Schema.Types.ObjectId,

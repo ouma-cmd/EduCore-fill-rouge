@@ -9,6 +9,7 @@ const routeParent = [
   {
     path: "/enfant",
     element: <></>,
+    loader: () => protecte("parent"),
   },
 ];
 export default routeParent;

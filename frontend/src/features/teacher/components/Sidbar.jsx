@@ -34,7 +34,21 @@ function Sidebar() {
           </li>
           <li>
             <NavLink
-              to="/classes"
+              to="/student"
+              className={({ isActive }) =>
+                `block px-4 py-3 rounded-lg text-sm font-medium transition ${
+                  isActive
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-blue-600"
+                }`
+              }
+            >
+              student
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/classe"
               className={({ isActive }) =>
                 `block px-4 py-3 rounded-lg text-sm font-medium transition ${
                   isActive
@@ -49,7 +63,7 @@ function Sidebar() {
 
           <li>
             <NavLink
-              to="/subject"
+              to="/teacher/subjects"
               className={({ isActive }) =>
                 `block px-4 py-3 rounded-lg text-sm font-medium transition ${
                   isActive
@@ -76,10 +90,24 @@ function Sidebar() {
               Add Note
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/MoyennNote"
+              className={({ isActive }) =>
+                `block px-4 py-3 rounded-lg text-sm font-medium transition ${
+                  isActive
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-blue-600"
+                }`
+              }
+            >
+              Note Moyenne
+            </NavLink>
+          </li>
 
           <li>
             <NavLink
-              to="/absence"
+              to="/teacher/absence"
               className={({ isActive }) =>
                 `block px-4 py-3 rounded-lg text-sm font-medium transition ${
                   isActive
@@ -94,22 +122,7 @@ function Sidebar() {
 
           <li>
             <NavLink
-              to="/getAbsences"
-              className={({ isActive }) =>
-                `block px-4 py-3 rounded-lg text-sm font-medium transition ${
-                  isActive
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-blue-600"
-                }`
-              }
-            >
-              Get Absences
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink
-              to="/settings"
+              to="/teacher/settings"
               className={({ isActive }) =>
                 `block px-4 py-3 rounded-lg text-sm font-medium transition ${
                   isActive

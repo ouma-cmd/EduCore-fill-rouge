@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  GraduationCap,
-  UserRound,
-  Users,
-  School,
-  BookOpen,
-  ClipboardCheck,
-  CalendarX,
-  BookMarked,
-} from "lucide-react";
+import { GraduationCap, School, BookOpen } from "lucide-react";
 import dashTeacher from "../../../services/dashTeacher";
 
 export default function DashboardTeacher() {
@@ -17,7 +8,7 @@ export default function DashboardTeacher() {
     async function fetchdashteacher() {
       const data = await dashTeacher();
 
-    console.log("DASH TEACHER DATA:", data);
+      console.log("DASH TEACHER DATA:", data);
       if (data) {
         setstate(data);
       }
