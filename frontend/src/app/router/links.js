@@ -39,7 +39,7 @@ export const links = {
     },
     {
       name: "classes",
-      link: "/classes",
+      link: "/student/classes",
       icon: "djhdkj",
     },
     {
@@ -55,6 +55,11 @@ export const links = {
     {
       name: "absence",
       link: "/absence",
+      icon: "djhdkj",
+    },
+    {
+      name: "settings",
+      link: "/teacher/settings",
       icon: "djhdkj",
     },
   ],

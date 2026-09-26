@@ -1,21 +1,21 @@
-const consulterNote = require("../services/afficherStudent");
+const Note = require("../services/afficherStudent");
 
 async function consulterNoteController(req, res) {
-  const idStudent = req.params.id;
-  const consultNote = await consulterNote(idStudent);
-  if (!consultNote) {
+  const id = req.user.id;
+  const consultNotes = await Note.consulterNote(id);
+  if (!consultNotes) {
     return res.status(400).json("not fond");
   }
-  return res.status(200).json(consultNote);
+  return res.status(200).json(consultNotes);
 }
 
 async function consulterAbsenceController(req, res) {
-  const studentId = req.params.id;
-  const findAbsence = await consulterNote.consulterAbsence(studentId);
+  const userId = req.user.id;
+  const findAbsence = await Note.consulterAbsence(userId);
   if (!findAbsence) {
-    return res.json("not fond");
+    return res.status(404).json("not found");
   }
-  return res.json(findAbsence);
+  return res.status(200).json(findAbsence);
 }
 
 module.exports = {
