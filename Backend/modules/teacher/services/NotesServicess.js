@@ -1,13 +1,13 @@
+const mongoose = require("mongoose");
 const SchoolClass = require("../../admin/Models/SchoolClass");
-const Student = require("../../admin/Models/Student");
 const teacher = require("../../admin/Models/teacher");
 const Grade = require("../models/Grade");
 
 async function ajouterNote(
   classe,
   student,
-  teacher,
   subject,
+  Teachers,
   score,
   semester,
   examType,
@@ -27,22 +27,46 @@ async function ajouterNote(
   if (!exist) {
     return null;
   }
-  const existTeachr = findClasse.teachers.some(
-    (teachers) => teachers.toString() === teacher.toString(),
-  );
-  if (!existTeachr) {
-    return null;
-  }
-  const creatGrad = Grade.create({
+
+  const creatGrad = await Grade.create({
     classe,
     student,
-    teacher,
     subject,
+    teacher: Teachers._id,
     score,
     semester,
     examType,
   });
   return creatGrad;
+}
+
+async function getGrade(user) {
+  const teacherUser = await teacher.findOne({ user: user });
+
+  console.log("TEACHER DOCUMENT:", teacherUser);
+
+  if (!teacherUser) {
+    return null;
+  }
+
+  console.log("REAL TEACHER ID:", teacherUser._id);
+
+  const teachers = await Grade.find({
+    teacher: teacherUser._id,
+  })
+    .populate({
+      path: "student",
+      populate: {
+        path: "user",
+        select: "username",
+      },
+    })
+    .populate("classe", "name")
+    .populate("subject", "name");
+
+  console.log("GRADES FROM DB:", teachers);
+
+  return teachers;
 }
 
 async function updateNote(id, score, semester, examType) {
@@ -57,48 +81,32 @@ async function updateNote(id, score, semester, examType) {
   );
   return updateGrad;
 }
-
-async function moyenneNote(id) {
-  const gridFind = await Grade.findById(id);
-
-  if (!gridFind) {
-    return null;
-  }
-  const classeFind = gridFind.classe;
-  const teacherFind = gridFind.teacher;
-  const subjectFind = gridFind.subject;
-  const studentfind = gridFind.student;
-  if (!classeFind || !teacherFind || !subjectFind || !studentfind) {
-    return null;
-  }
-
-  const typeExameFind = gridFind.examType;
-  if (typeExameFind !== "controller") {
-    return null;
-  }
-
+async function moyenneNote(student, classe, subject) {
   const groupScore = await Grade.aggregate([
     {
       $match: {
-        student: studentfind,
-        classe: classeFind,
-        teacher: teacherFind,
-        subject: subjectFind,
-        examType: typeExameFind,
+        student: new mongoose.Types.ObjectId(student),
+        classe: new mongoose.Types.ObjectId(classe),
+        subject: new mongoose.Types.ObjectId(subject),
       },
     },
     {
       $group: {
-        _id: "$student",
-        totaleAvg: { $avg: "$score" },
+        _id: {
+          semester: "$semester",
+          examType: "$examType",
+        },
+        moyenne: { $avg: "$score" },
       },
     },
   ]);
+
   return groupScore;
 }
 
 module.exports = {
   ajouterNote,
+  getGrade,
   updateNote,
   moyenneNote,
 };

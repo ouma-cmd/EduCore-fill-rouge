@@ -1,11 +1,20 @@
+const Teacher = require("../../admin/Models/teacher");
 const MarquerTeacher = require("../services/MarquerPrésences");
 
 async function MarquerPrésencesController(req, res) {
-  const { classe, student,teacher, date, status } = req.body;
+  const { classe, student, subjects, date, status } = req.body;
+  const teacherUser = await Teacher.findOne({
+    user: req.user.id,
+  });
+
+  if (!teacherUser) {
+    return res.status(404).json("Teacher not found");
+  }
   const MarquerPrésencess = await MarquerTeacher.MarquerPrésences(
     classe,
     student,
-    teacher,
+    teacherUser._id,
+    subjects,
     date,
     status,
   );
@@ -16,8 +25,11 @@ async function MarquerPrésencesController(req, res) {
 }
 
 async function historAbsenceController(req, res) {
-  const status = req.params.status;
-  const historiqueAbsence = await MarquerTeacher.historAbsence(status);
+  const teacherUser = await Teacher.findOne({
+    user: req.user.id,
+  });
+  console.log("REQ.USER:", req.user);
+  const historiqueAbsence = await MarquerTeacher.historAbsence(teacherUser._id);
   if (!historiqueAbsence) {
     return res.status(400).json("not fond");
   }

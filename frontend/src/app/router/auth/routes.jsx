@@ -8,10 +8,6 @@ const routesAuth = [
     element: <LoginForm />,
     loader: async () => await publice(),
   },
-  {
-    path: "/register",
-    element: <></>,
-    loader: () => protecte("admin"),
-  },
+
 ];
 export default routesAuth;

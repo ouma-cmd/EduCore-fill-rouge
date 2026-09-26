@@ -17,7 +17,7 @@ export const links = {
     },
     {
       name: "classes",
-      link: "/classes",
+      link: "/Classes",
       icon: "djhdkj",
     },
     {
@@ -71,11 +71,11 @@ export const links = {
     },
     {
       name: "classes",
-      link: "/classes",
+      link: "/classe",
       icon: "djhdkj",
     },
     {
-      name: "subject",
+      name: "subjects",
       link: "/subject",
       icon: "djhdkj",
     },
@@ -85,13 +85,18 @@ export const links = {
       icon: "djhdkj",
     },
     {
-      name: "absence",
-      link: "/absence",
+      name: "MoyennNote",
+      link: "/MoyennNote",
       icon: "djhdkj",
     },
     {
-      name: "getAbsences",
-      link: "/getAbsences",
+      name: "absence",
+      link: "/teacher/absence",
+      icon: "djhdkj",
+    },
+    {
+      name: "settings",
+      link: "/teacher/settings",
       icon: "djhdkj",
     },
   ],
