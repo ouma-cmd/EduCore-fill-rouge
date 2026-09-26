@@ -11,7 +11,7 @@ const dashrout = express.Router();
 
 dashrout.get("/dashAdmin", roleMiddleware, dashboardController);
 dashrout.get(
-  "/dashStudent/:id",
+  "/dashStudent",
   roleStudentMiddlewere,
   dashboardStudentController,
 );

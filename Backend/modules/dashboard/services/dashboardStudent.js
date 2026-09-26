@@ -7,7 +7,7 @@ const Attendance = require("../../teacher/models/Attendance");
 const Grade = require("../../teacher/models/Grade");
 
 async function dashStudent(id) {
-  const idStudent = await Student.findById(id);
+  const idStudent = await Student.findOne({ user: id });
   if (!idStudent) {
     return null;
   }
@@ -15,15 +15,18 @@ async function dashStudent(id) {
   const teacherr = idStudent.teachers;
   const subjectt = idStudent.subjects;
   const parentt = idStudent.parent;
-  const gradee = idStudent.grade;
-  const attendancee = idStudent.attendance;
+
 
   const nomClasse = await SchoolClass.countDocuments({ _id: { $in: classe } });
   const nomTeacher = await teacher.countDocuments({ _id: { $in: teacherr } });
   const nomSubject = await subject.countDocuments({ _id: { $in: subjectt } });
   const nomParent = await parent.countDocuments(parentt);
-  const nomGrad = await Grade.countDocuments({ _id: { $in: gradee } });
-  const nomAttendenace = await Attendance.countDocuments({ _id: { $in: attendancee } });
+  const nomGrad = await Grade.countDocuments({
+    student: idStudent._id,
+  });
+  const nomAttendenace = await Attendance.countDocuments({
+    student: idStudent._id,
+  });
   return {
     classe: nomClasse,
     teacher: nomTeacher,
