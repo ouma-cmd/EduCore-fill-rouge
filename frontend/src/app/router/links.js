@@ -112,6 +112,16 @@ export const links = {
       icon: "djhdkj",
     },
     {
+      name: "NoteEnfant",
+      link: "/NoteEnfant",
+      icon: "djhdkj",
+    },
+    {
+      name: "AbsenceEnfante",
+      link: "/AbsenceEnfante",
+      icon: "djhdkj",
+    },
+    {
       name: "enfant",
       link: "/enfant",
       icon: "djhdkj",
