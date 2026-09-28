@@ -11,6 +11,36 @@ const changePasswordController = require("../controller/changePasswordController
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Login user
+ *     description: Authenticate a user and return a JWT token.
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: test@gmail.com
+ *               password:
+ *                 type: string
+ *                 example: "123456"
+ *     responses:
+ *       200:
+ *         description: Login successful or invalid credentials
+ *       400:
+ *         description: Validation error
+ */
 router.post("/login", loginSchema, loginController);
 router.post(
   "/register",
@@ -20,7 +50,7 @@ router.post(
   registerController,
 );
 router.get("/profile", AuthMiddleware, profileController);
-router.delete("/logout",AuthMiddleware, logoutController);
-router.put("/change-password",AuthMiddleware, changePasswordController )
+router.delete("/logout", AuthMiddleware, logoutController);
+router.put("/change-password", AuthMiddleware, changePasswordController);
 
 module.exports = router;
