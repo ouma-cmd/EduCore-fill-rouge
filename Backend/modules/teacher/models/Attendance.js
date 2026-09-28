@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
-const { required } = require("zod/mini");
-const { type } = require("../../auth/schemas/loginSchema");
 
 const AttendanceSchema = new mongoose.Schema(
   {

@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { redirect } from "react-router-dom";
+import { redirect } from "react-router";
 
 function protecte(requiredRole) {
   const token = localStorage.getItem("token");

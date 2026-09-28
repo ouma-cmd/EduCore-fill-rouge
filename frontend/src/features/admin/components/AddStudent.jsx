@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import user from "../../../services/user";
 import getClasses from "../../../services/getClasses";
 import getParent from "../../../services/GetParent";
-import getTeacher from "../../../services/GetTeacher";
+import getTeacher from "../../../services/getTeacher";
 import ajouterStudent from "../../../services/ajouterStudent";
 import subjectApi from "../../../services/getsubject";
 

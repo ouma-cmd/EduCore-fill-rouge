@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import getTeacher from "../../../services/GetTeacher";
+import getTeacher from "../../../services/getTeacher";
 import ajouterSubject from "../../../services/ajouterSubject";
 
 export default function AddSubject({ onClose }) {

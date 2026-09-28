@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import getTeacher from "../../../services/GetTeacher";
+import getTeacher from "../../../services/getTeacher";
 import editSubject from "../../../services/editSubject";
 
 export default function EditFormSubject({ subject, onClose }) {
