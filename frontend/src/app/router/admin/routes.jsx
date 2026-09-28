@@ -3,7 +3,7 @@ import Classes from "../../../features/admin/pages/Classes";
 import DashAdmin from "../../../features/admin/pages/Dashboard";
 import Parent from "../../../features/admin/pages/Parent";
 import Settings from "../../../features/admin/pages/Settings";
-import Student from "../../../features/admin/pages/student";
+import Student from "../../../features/admin/pages/Student";
 import Subjects from "../../../features/admin/pages/Subject";
 import Teachers from "../../../features/admin/pages/Teacher";
 import USer from "../../../features/admin/pages/User";

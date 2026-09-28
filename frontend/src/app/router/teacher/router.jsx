@@ -2,7 +2,7 @@ import Layout from "../../../features/teacher/components/Layout";
 import Absence from "../../../features/teacher/pages/Absence";
 import AddNote from "../../../features/teacher/pages/AddNote";
 import Classes from "../../../features/teacher/pages/Classes";
-import DashboardTeacher from "../../../features/teacher/pages/dashboardTeach";
+import DashboardTeacher from "../../../features/teacher/pages/DashboardTeach";
 import MoyenneNote from "../../../features/teacher/pages/MoyennNote";
 import Settings from "../../../features/teacher/pages/Settings";
 import Student from "../../../features/teacher/pages/Student";

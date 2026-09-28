@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import getTeacher from "../../../services/GetTeacher";
+import getTeacher from "../../../services/getTeacher";
 import deletTeacher from "../../../services/deletTeacher";
 import EditTeacher from "../components/EditTeacher";
 import AddTeacher from "../components/AddTeacher";
