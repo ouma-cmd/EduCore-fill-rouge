@@ -130,15 +130,15 @@ export default function NoteEnfant() {
 
                     <td className="px-6 py-4">
                       <span className="rounded-lg bg-violet-50 px-3 py-1 font-semibold text-violet-600">
-                        {note.score}/20
+                        {note?.score}/20
                       </span>
                     </td>
 
                     <td className="px-6 py-4 text-gray-600">
-                      semester {note.semester}
+                      semester {note?.semester}
                     </td>
 
-                    <td className="px-6 py-4 text-gray-600">{note.examType}</td>
+                    <td className="px-6 py-4 text-gray-600">{note?.examType}</td>
                   </tr>
                 );
               })}
