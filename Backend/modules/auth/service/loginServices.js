@@ -7,7 +7,7 @@ async function loginServices(email, password) {
     email: email,
   });
   if (!emailFind) {
-    return console.log("email not fond "); // should return an error
+    return null; // should return an error
   } else {
     const isPasswordCorrect = await bcrypt.compare(
       password,
@@ -29,7 +29,7 @@ async function loginServices(email, password) {
         },
       };
     } else {
-      return console.log("password not correct");
+      return null;
     }
   }
 }
